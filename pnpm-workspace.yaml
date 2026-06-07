@@ -1,0 +1,6 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+# 공통 의존성 버전 단일화 자리 (패키지 추가 시 채운다)
+catalog: {}
