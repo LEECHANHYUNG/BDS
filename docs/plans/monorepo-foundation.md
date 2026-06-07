@@ -236,5 +236,5 @@ catalog: {}
 - [x] `pnpm changeset` 동작 확인 (CLI 정상 설치·실행. `status`의 HEAD diverge 에러는 커밋 0개라서 나는 예상된 상태로, 첫 커밋 후 해소됨)
 
 ### H. 첫 커밋 & 원격 연결
-- [ ] 전체를 첫 커밋 (한국어 Conventional Commit, 예: `chore: 모노레포 기반 환경 구성`)
-- [ ] `gh repo create BDS --public --source=. --remote=origin --push`로 공개 원격 저장소 생성 및 푸시
+- [x] 전체를 첫 커밋 (`chore: 모노레포 기반 환경 구성`)
+- [x] `gh repo create BDS --public --source=. --remote=origin --push`로 공개 원격 저장소 생성 및 푸시 (https://github.com/LEECHANHYUNG/BDS)
