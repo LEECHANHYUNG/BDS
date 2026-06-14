@@ -23,6 +23,29 @@
 
 조사·계획 산출물은 각각 `docs/research/`, `docs/plans/`에 영구적으로 누적됩니다.
 
+## 두 AI의 협업 구조 (Claude Code × Codex)
+
+대량 구현·빌드·시각 산출이 필요한 작업은 두 AI 도구를 **역할 분담**으로 운영합니다. 누가 더 나은지를 따지지 않고, 어떤 일을 누구에게 맡길지 먼저 정한 뒤 [`PROJECT.md`](PROJECT.md) 현황판으로 조율합니다.
+
+- **Claude Code (판단)** — 조사·계획·리스크 검토·설계·리뷰. 행동 지침: [`CLAUDE.md`](CLAUDE.md)
+- **Codex (실행)** — 컴포넌트 구현·토큰 빌드·스크립트 실행·문서/시각 산출. 행동 지침: [`AGENTS.md`](AGENTS.md)
+
+조율 장치는 세 가지입니다.
+
+- **현황판** — [`PROJECT.md`](PROJECT.md)의 `Goal` / `Work Board` / `Decisions` / `Handoff Log`로 작업 상태를 공유합니다.
+- **파일 락** — 한 파일은 한 시점에 한 도구만 수정합니다. 다른 도구는 읽기·리뷰만 합니다.
+- **핸드오프 로그** — 작업을 넘길 때 `[담당] changed: … / verified: … / next: …` 한 줄을 남깁니다.
+
+규칙 상세는 [`docs/collab-protocol.md`](docs/collab-protocol.md), 시각 기준은 [`DESIGN.md`](DESIGN.md), 산출물 템플릿은 [`docs/templates.md`](docs/templates.md)에 있습니다. 한 도구로 빠른 단순 작업은 굳이 나누지 않습니다.
+
+### RTK — AI 토큰 절감
+
+두 AI 도구가 `git status`, `pnpm lint`, 빌드·테스트 같은 **긴 출력**을 읽을 때 토큰을 60~90% 줄이기 위해 [RTK](https://github.com/rtk-ai/rtk)(CLI 프록시)를 사용합니다.
+
+- **Claude Code**: 전역 hook(`~/.claude/settings.json`)이 Bash 명령을 자동으로 `rtk <명령>`으로 재작성합니다. 별도 조치가 필요 없습니다.
+- **Codex**: 루트 [`RTK.md`](RTK.md)와 [`AGENTS.md`](AGENTS.md)의 지침에 따라 셸 명령 앞에 `rtk`를 붙입니다.
+- **설치**: `brew install rtk` 후 `rtk init -g`(Claude Code) / `rtk init --codex`(Codex). 절감 통계는 `rtk gain`으로 확인합니다.
+
 ## 기술 스택
 
 - **패키지 매니저 / 워크스페이스**: [pnpm](https://pnpm.io) workspace + catalog
@@ -34,12 +57,19 @@
 
 ```
 .
-├─ apps/        # 문서 사이트 · 데모 앱 (향후)
-├─ packages/    # 컴포넌트 · 토큰 라이브러리 (향후)
+├─ apps/                # 문서 사이트 · 데모 앱 (향후)
+├─ packages/            # 컴포넌트 · 토큰 라이브러리 (향후)
 ├─ docs/
-│  ├─ research/ # 조사 단계 산출물
-│  └─ plans/    # 계획 단계 산출물
-└─ .changeset/  # Changesets 설정
+│  ├─ research/         # 조사 단계 산출물
+│  ├─ plans/            # 계획 단계 산출물
+│  ├─ collab-protocol.md # 협업 규칙 (역할·파일 락·핸드오프)
+│  └─ templates.md      # 산출물 템플릿
+├─ PROJECT.md           # 협업 현황판 (Work Board / Handoff Log)
+├─ CLAUDE.md            # Claude Code(판단) 작업 지침
+├─ AGENTS.md            # Codex(실행) 작업 지침
+├─ RTK.md               # RTK(토큰 절감) Codex용 지침
+├─ DESIGN.md            # 시각 기준
+└─ .changeset/          # Changesets 설정
 ```
 
 ## 기본 명령
