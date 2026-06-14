@@ -8,8 +8,8 @@
 
 이 레포가 지금 해결하려는 일을 한 줄로 적는다. 작업 단위가 바뀌면 갱신한다.
 
-- 현재 목표: _(미설정 — 첫 작업을 시작할 때 채운다)_
-- 관련 산출물: `docs/research/`, `docs/plans/`, `packages/`
+- 현재 목표: 문서와 로컬 작업 스킬을 범용 React 디자인 시스템 맥락으로 정리한다.
+- 관련 산출물: 루트 지침 문서, `docs/` 협업 문서, `.claude/skills/`
 
 ## Work Board
 
@@ -35,4 +35,4 @@
 [담당 도구] changed: <수정 파일> / verified: <검증 상태> / next: <다음 담당과 할 일>
 ```
 
-- _(아직 없음 — 첫 핸드오프부터 기록)_
+- [Codex] changed: README.md, AGENTS.md, CLAUDE.md, DESIGN.md, docs/collab-protocol.md, docs/templates.md, docs/research/monorepo-foundation.md, docs/plans/monorepo-foundation.md, .claude/skills/research-phase/SKILL.md, .claude/skills/plan-phase/SKILL.md, .claude/skills/plan-phase/assets/plan-template.md, .claude/skills/implement-phase/SKILL.md, PROJECT.md / verified: `pnpm check` 통과, 숨김 파일 포함 관련 키워드 검색 매치 없음 / next: 작업 종료
