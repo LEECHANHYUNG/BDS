@@ -8,8 +8,8 @@
 
 이 레포가 지금 해결하려는 일을 한 줄로 적는다. 작업 단위가 바뀌면 갱신한다.
 
-- 현재 목표: _(미설정 — 첫 작업을 시작할 때 채운다)_
-- 관련 산출물: `docs/research/`, `docs/plans/`, `packages/`
+- 현재 목표: 디자인 시스템 PR 템플릿 도입 (완료 — `.github/PULL_REQUEST_TEMPLATE.md`)
+- 관련 산출물: `docs/research/pr-template.md`, `docs/plans/pr-template.md`, `.github/PULL_REQUEST_TEMPLATE.md`
 
 ## Work Board
 
@@ -35,4 +35,5 @@
 [담당 도구] changed: <수정 파일> / verified: <검증 상태> / next: <다음 담당과 할 일>
 ```
 
-- _(아직 없음 — 첫 핸드오프부터 기록)_
+- [Codex] changed: PROJECT.md, docs/research/pr-template.md, docs/plans/pr-template.md / verified: `pnpm check`, `pnpm lint` 통과(패키지 없음으로 lint task 0개) / next: PR 리뷰 진행
+- [Claude Code] changed: .github/PULL_REQUEST_TEMPLATE.md, docs/research/pr-template.md, docs/plans/pr-template.md / verified: 마크다운 문법·참조 정합(pnpm lint·.changeset·DESIGN.md) 확인 / next: 종료 (단일 정적 마크다운이라 collab-protocol "협업 미적용" 조항에 따라 Codex 핸드오프 생략, Claude Code 직접 작성)
