@@ -8,8 +8,8 @@
 
 이 레포가 지금 해결하려는 일을 한 줄로 적는다. 작업 단위가 바뀌면 갱신한다.
 
-- 현재 목표: 디자인 시스템 PR 템플릿 도입 (완료 — `.github/PULL_REQUEST_TEMPLATE.md`)
-- 관련 산출물: `docs/research/pr-template.md`, `docs/plans/pr-template.md`, `.github/PULL_REQUEST_TEMPLATE.md`
+- 현재 목표: 문서와 로컬 작업 스킬을 범용 React 디자인 시스템 맥락으로 정리한다.
+- 관련 산출물: 루트 지침 문서, `docs/` 협업 문서, `.claude/skills/`
 
 ## Work Board
 
@@ -35,5 +35,4 @@
 [담당 도구] changed: <수정 파일> / verified: <검증 상태> / next: <다음 담당과 할 일>
 ```
 
-- [Codex] changed: PROJECT.md, docs/research/pr-template.md, docs/plans/pr-template.md / verified: `pnpm check`, `pnpm lint` 통과(패키지 없음으로 lint task 0개) / next: PR 리뷰 진행
-- [Claude Code] changed: .github/PULL_REQUEST_TEMPLATE.md, docs/research/pr-template.md, docs/plans/pr-template.md / verified: 마크다운 문법·참조 정합(pnpm lint·.changeset·DESIGN.md) 확인 / next: 종료 (단일 정적 마크다운이라 collab-protocol "협업 미적용" 조항에 따라 Codex 핸드오프 생략, Claude Code 직접 작성)
+- [Codex] changed: README.md, AGENTS.md, CLAUDE.md, DESIGN.md, docs/collab-protocol.md, docs/templates.md, docs/research/monorepo-foundation.md, docs/plans/monorepo-foundation.md, .claude/skills/research-phase/SKILL.md, .claude/skills/plan-phase/SKILL.md, .claude/skills/plan-phase/assets/plan-template.md, .claude/skills/implement-phase/SKILL.md, PROJECT.md / verified: `pnpm check` 통과, 숨김 파일 포함 관련 키워드 검색 매치 없음 / next: 작업 종료
