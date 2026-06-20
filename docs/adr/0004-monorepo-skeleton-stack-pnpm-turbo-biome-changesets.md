@@ -1,5 +1,7 @@
 # 모노레포 골격 스택 = pnpm + Turborepo + Biome + Changesets (의사결정 기반 재확인)
 
+> **Superseded by [ADR-0008](0008-lint-format-oxc.md)** — 린트/포맷 결정만 Biome에서 oxlint + oxfmt로 교체한다. pnpm, Turborepo, Changesets 결정은 유지한다.
+
 기존 골격은 조사(`docs/research/monorepo-foundation.md`)는 거쳤으나 **사용자의 명시적 의사결정 없이 Codex가 일단 깔아둔** 상태였다. 이 ADR은 각 도구 선택을 이 프로젝트 고유 제약(ADR-0001 C>A>B·공개 publish, ADR-0002 L1/L2, ADR-0003 dogfooding)에 비춰 하나씩 재검토하고 **의식적으로 확정**한 기록이다. 결론적으로 4종 모두 유지하되, 그 근거를 박제한다.
 
 - **패키지 매니저 = pnpm 10.** `catalog`로 다패키지 간 공통 의존성(React/TS) 버전 드리프트를 차단하고, `workspace:` 프로토콜이 publish 시 실버전으로 자동 치환된다. 공개 npm publish가 산출물(ADR-0001)이라 이 두 가지가 "버전 일관성 있는 라이브러리"라는 신뢰로 직결된다. npm은 catalog가 없어 미충족, yarn berry는 가능하나 PnP 호환성 리스크와 생태계 열위.

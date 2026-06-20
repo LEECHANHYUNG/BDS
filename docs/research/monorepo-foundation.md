@@ -82,7 +82,7 @@ React 디자인 시스템을 **모노레포로 구성**하려 한다. 아직 어
 - **린트/포맷:**
   - **ESLint v9**(flat config 기본, `.eslintrc` deprecated) — 플러그인 생태계(react/jsx-a11y/storybook) 필요 시 우위.
   - **Biome v2**("Biotype", 2025-06 stable / 2026-05 v2.4.15) — 린터+포매터 통합, type-aware 룰, ESLint 대비 10~20배. 신규 올인원 대안.
-  - **oxlint(oxc) v1.65** — 최고속, CI 가속기로 병행 권장. **oxfmt** — 2026-06 현재 **beta(1.0 미도달)**, Prettier 100% 적합성 통과하나 **즉시 채택은 시기상조**.
+  - **oxlint(oxc) v1.65** — 최고속, CI 가속기로 병행 권장. **oxfmt** — 2026-06 현재 **beta(1.0 미도달)**, Prettier 100% 적합성 통과하나 **즉시 채택은 시기상조**. 단 ADR-0008에서 이 제품 합리성 판단을 알고도 학습 동기와 코드 0줄 타이밍 때문에 oxc 채택으로 의식적으로 뒤집었다.
   - 출처: [Biome vs ESLint vs Oxlint 2026](https://www.pkgpulse.com/guides/biome-vs-eslint-vs-oxlint-2026), [Oxfmt Beta](https://oxc.rs/blog/2026-02-24-oxfmt-beta)
 - **버저닝/배포: Changesets — 2026년에도 모노레포 사실상 표준.** 변경 영향을 파일로 선언 → version PR → npm publish(GitHub Action) 정석 흐름. pnpm 공식 문서가 Changesets 전제. (semantic-release-monorepo는 미유지보수.)
   - 출처: [changesets/changesets](https://github.com/changesets/changesets)

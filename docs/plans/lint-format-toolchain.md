@@ -173,10 +173,10 @@ tools:
 
 ### E. ADR / 문서 정합 (역사 보존)
 
-- [ ] E1. `docs/adr/0004-...md` 상단에 `> **Superseded by [ADR-0008](0008-...md)**` 표기 (본문은 보존)
-- [ ] E2. `docs/adr/0008-lint-format-oxc.md` 신설 — 결정/근거(학습 동기 + 코드 0줄 타이밍, 조사는 Biome 유지였으나 의식적으로 뒤집음)/Considered Options(Biome 유지)/재평가 트리거 A·B·C
-- [ ] E3. `docs/adr/0007-...md` Biome 전제 서술(profile chill 근거·tools.biome) → oxlint 기준으로 갱신 + Consequences에 tools 변경 사유
-- [ ] E4. `docs/research/monorepo-foundation.md:77` "oxfmt beta 시기상조" 줄에 "→ ADR-0008에서 학습 동기로 oxc 채택 결정" 주석
+- [x] E1. `docs/adr/0004-...md` 상단에 `> **Superseded by [ADR-0008](0008-...md)**` 표기 (본문은 보존)
+- [x] E2. `docs/adr/0008-lint-format-oxc.md` 신설 — 결정/근거(학습 동기 + 코드 0줄 타이밍, 조사는 Biome 유지였으나 의식적으로 뒤집음)/Considered Options(Biome 유지)/재평가 트리거 A·B·C
+- [x] E3. `docs/adr/0007-...md` Biome 전제 서술(profile chill 근거·tools.biome) → oxlint 기준으로 갱신 + Consequences에 tools 변경 사유
+- [x] E4. `docs/research/monorepo-foundation.md:77` "oxfmt beta 시기상조" 줄에 "→ ADR-0008에서 학습 동기로 oxc 채택 결정" 주석
 
 ### F. 현황판
 
