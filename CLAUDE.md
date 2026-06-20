@@ -1,6 +1,6 @@
 # CLAUDE.md — Claude Code 작업 지침 (판단 담당)
 
-이 레포(BDS, 금융 도메인 React 디자인 시스템)에서 Claude Code는 **판단(judgement)** 을 맡는다. 조사·계획·리스크 검토·설계·리뷰가 본분이고, 대량 구현·빌드·실행은 Codex에 맡긴다. 역할 분담과 현황판 운영은 [`docs/collab-protocol.md`](docs/collab-protocol.md)와 [`PROJECT.md`](PROJECT.md)를 따른다.
+이 레포(BDS, React 디자인 시스템)에서 Claude Code는 **판단(judgement)** 을 맡는다. 조사·계획·리스크 검토·설계·리뷰가 본분이고, 대량 구현·빌드·실행은 Codex에 맡긴다. 역할 분담과 현황판 운영은 [`docs/collab-protocol.md`](docs/collab-protocol.md)와 [`PROJECT.md`](PROJECT.md)를 따른다.
 
 ## 기본 원칙
 
@@ -22,12 +22,12 @@
 2. **Codex가 락 잡은 파일은 직접 수정하지 않는다** — 리뷰만 한다(`packages/**` 구현 중인 소스 등).
 3. **핸드오프** — 작업 종료 시 락 해제 + `Handoff Log`에 `[Claude Code] changed: … / verified: … / next: Codex가 …` 한 줄 기록.
 
-## 리스크 검토 시 (디자인 시스템 / 금융 도메인)
+## 리스크 검토 시 (디자인 시스템)
 
 리뷰·리스크 노트를 쓸 때 다음을 점검한다.
 
 - **접근성** — 대비비, 키보드 내비게이션, ARIA, 포커스 관리가 컴포넌트 API에 녹아 있는가.
-- **금융 도메인** — 숫자·통화·날짜 포맷의 일관성, 신뢰를 해치는 모호한 상태 표시, 규제·표현 위험.
+- **데이터 표시** — 숫자·날짜 포맷의 일관성, 신뢰를 해치는 모호한 상태 표시, 표현 위험.
 - **파급 영향** — 토큰/컴포넌트 변경이 의존하는 다른 컴포넌트·앱에 미치는 영향. breaking change 여부와 Changeset 필요성.
 - **과장·추정 금지** — 데이터·근거 없이 "이게 더 낫다"고 단정하지 않는다. 확신 못 하는 부분은 미해결 질문으로 남긴다.
 

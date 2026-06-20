@@ -1,11 +1,11 @@
-# Plan: 금융 디자인 시스템 모노레포 기반 환경 구성
+# Plan: React 디자인 시스템 모노레포 기반 환경 구성
 
 > 작성: 2026-06-07 · 상태: 검토/주석 대기
 > 조사 토대: [`docs/research/monorepo-foundation.md`](../research/monorepo-foundation.md)
 
 ## 1. 개요 / 목표
 
-금융 도메인 React 디자인 시스템을 위한 **모노레포 골격만** 잡는다. 컴포넌트는 아직 추가하지 않으며, 코드 한 줄을 작성하기 전에 갖춰져야 할 토대 3종만 구성한다.
+React 디자인 시스템을 위한 **모노레포 골격만** 잡는다. 컴포넌트는 아직 추가하지 않으며, 코드 한 줄을 작성하기 전에 갖춰져야 할 토대 3종만 구성한다.
 
 이번 범위 (사용자 확정):
 
@@ -53,13 +53,13 @@ BDS/
 
 - 루트에 `turbo` 개발 의존성, `turbo.json`에 태스크 파이프라인 정의.
 - 지금은 패키지가 없으므로 태스크는 `lint`, `format`, `check`(Biome), 향후 `build`/`test` 자리만 선언. 실제 실행 대상은 패키지가 생기면 붙는다.
-- **원격 캐시(Vercel Remote Cache)는 이번에 연결하지 않는다** — 조사 미해결 질문 5번(금융권 보안 정책)이 미확정. 로컬 캐시만 사용. `turbo login/link`는 보류.
+- **원격 캐시(Vercel Remote Cache)는 이번에 연결하지 않는다** — 조사 미해결 질문 5번(외부 캐시/인프라 정책)이 미확정. 로컬 캐시만 사용. `turbo login/link`는 보류.
 
 ### 2-4. Lint + Format: Biome v2
 
 - 루트에 `@biomejs/biome` 개발 의존성 + `biome.json`.
 - Biome는 린터 + 포매터를 단일 도구로 처리(조사 3-6). `pnpm format`(쓰기), `pnpm lint`(검사), `pnpm check`(둘 다 + import 정리)로 스크립트 구성.
-- **금융 접근성(jsx-a11y) 룰 커버리지 트레이드오프**(조사 4-4): Biome v2는 다수 a11y 룰을 내장하나 ESLint의 `jsx-a11y` 전체 세트보다 좁을 수 있다. 사용자가 Biome를 명시 선택했으므로 채택하되, 향후 컴포넌트 단계에서 a11y 린트가 부족하면 ESLint를 **보조로** 얹는 길을 열어둔다(지금은 안 함).
+- **접근성(jsx-a11y) 룰 커버리지 트레이드오프**(조사 4-4): Biome v2는 다수 a11y 룰을 내장하나 ESLint의 `jsx-a11y` 전체 세트보다 좁을 수 있다. 사용자가 Biome를 명시 선택했으므로 채택하되, 향후 컴포넌트 단계에서 a11y 린트가 부족하면 ESLint를 **보조로** 얹는 길을 열어둔다(지금은 안 함).
 - 전역 CLAUDE.md에 `oxfmt` 설정 관련 커밋 예시가 있으나, 이번엔 **Biome 단일 도구로 포맷**한다(oxfmt는 조사상 beta라 보류).
 
 ### 2-5. 버저닝: Changesets
@@ -74,7 +74,7 @@ BDS/
 
 루트 `README.md`에 다음 내용을 담는다 — 단순 사용법 나열이 아니라 **이 레포가 어떻게 일하는지**를 설명하는 문서:
 
-1. **프로젝트 소개**: 금융 도메인 React 디자인 시스템 모노레포라는 한 줄 정체성.
+1. **프로젝트 소개**: React 디자인 시스템 모노레포라는 한 줄 정체성.
 2. **AI 기반 작업 방식**: 이 레포의 모든 작업은 AI(Claude Code)를 활용해 진행한다는 점을 명시.
 3. **추가된 스킬 설명** (프로젝트 `.claude/skills/`에 실재하는 2종, 확인됨):
    - `research-phase` — 코드베이스를 깊이 읽고 웹으로 최신 동향을 조사해 `docs/research/<주제>.md`를 남기는 **조사 단계**.
@@ -196,7 +196,7 @@ catalog: {}
   - 원격 생성: `gh repo create BDS --public --source=. --remote=origin --push`. gh CLI 2.83.0 설치 + `LEECHANHYUNG` 계정 인증 확인됨 → `github.com/LEECHANHYUNG/BDS`로 생성.
 - **catalog를 지금 채울지**: 공통 의존성(React/TS 등)이 아직 없으므로 빈 catalog로 시작. 첫 패키지 추가 시 채운다. 미리 React 버전만 박아둘 수도 있으나 컴포넌트가 없어 불필요.
 - **`tooling/` 공유 설정 패키지 보류**: 조사는 권장하나 공유 대상이 0개라 지금은 부채. 사용자 방침("다른 설정 지금 잡지 말자")과도 일치.
-- **Biome vs ESLint+Prettier 트레이드오프**(조사 4-4): 금융 a11y 룰 커버리지가 좁을 수 있음을 인지하고 채택. 부족 시 후속 보강.
+- **Biome vs ESLint+Prettier 트레이드오프**(조사 4-4): a11y 룰 커버리지가 좁을 수 있음을 인지하고 채택. 부족 시 후속 보강.
 - **원격 캐시·CI 배포 자동화 제외**: 보안 정책 미확정(조사 미해결 5번)이라 로컬 캐시 + 수동 흐름만. 나중에 추가 가능하게 config는 남김.
 - **`packageManager` 핀**: corepack이 읽어 팀 전체 pnpm 버전을 통일. CI에서도 동일 버전 보장.
 

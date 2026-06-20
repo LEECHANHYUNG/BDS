@@ -1,11 +1,11 @@
-# Research: 금융 디자인 시스템 모노레포 기반 환경 구성
+# Research: React 디자인 시스템 모노레포 기반 환경 구성
 
 > 작성: 2026-06-07 · 상태: 검토 대기
 > 조사 축: **웹 조사 중심** (코드베이스는 백지 상태이므로 가볍게 확인)
 
 ## 1. 조사 범위 & 질문
 
-금융 도메인 React 디자인 시스템을 **모노레포로 구성**하려 한다. 아직 어떤 툴도 정하지 않았고,
+React 디자인 시스템을 **모노레포로 구성**하려 한다. 아직 어떤 툴도 정하지 않았고,
 **지금은 컴포넌트를 추가하는 단계가 아니라 환경(골격)만 구성하는 단계**다. 따라서
 "컴포넌트가 0개여도 먼저 깔아야 하는 최소 필수 요소"가 무엇인지를 핵심으로 조사했다.
 
@@ -25,7 +25,7 @@
 - 즉, 기존 토큰/컴포넌트/네이밍 컨벤션/상태 관리 레이어가 **아직 없으므로** 신규 결정에 제약이 없다.
 - `docs/research/` 디렉터리를 이번 조사를 위해 새로 생성했다.
 
-→ 코드베이스 측 맞물림 이슈는 없으며, 결정은 전적으로 외부 모범 사례 + 금융 도메인 요구에 따라 정한다.
+→ 코드베이스 측 맞물림 이슈는 없으며, 결정은 전적으로 외부 모범 사례와 디자인 시스템 운영 요구에 따라 정한다.
 
 ## 3. 외부 조사 — 최신 동향 & 모범 사례 (2026-06 기준)
 
@@ -106,27 +106,27 @@ Vitest는 골격만, Storybook/Chromatic은 컴포넌트가 생긴 뒤 채운다
 - **디렉터리:** `apps/` + `packages/` + `packages/config`(공유 tsconfig/lint 설정)
 - **번들러(나중 컴포넌트 패키지용):** tsdown 우선 검토(단 0.x 안정성 트레이드오프) 또는 tsup 잔류 인지 후 선택 — **이 단계에선 결정만 보류해도 무방**
 - **토큰 파이프라인(나중):** DTCG 2025.10 JSON(SSOT) → Style Dictionary v4 → CSS 변수 + TS 토큰
-- **스타일링(나중):** zero-runtime + RSC 호환군에서 선택. 금융 헤비 테마엔 Panda CSS / vanilla-extract 유력, 생태계·속도 우선이면 Tailwind v4
+- **스타일링(나중):** zero-runtime + RSC 호환군에서 선택. 복잡한 테마/디자인 시스템에는 Panda CSS / vanilla-extract 유력, 생태계·속도 우선이면 Tailwind v4
 
-### 4-3. 금융 도메인 고려사항
+### 4-3. 접근성 및 데이터 표시 고려사항
 - **접근성: WCAG 2.2 AA가 실무 기준.** WCAG 3.0/APCA는 2026년에도 미완성(정식 Recommendation 2028~2030+ 예상) — **모니터링만**.
   - 색 대비: 본문 4.5:1, 큰 텍스트/UI 3:1, **라이트·다크 모두 충족 필요**(다크모드 제공만으로는 미충족).
   - **토큰 레벨에서 대비 강제**: 시맨틱 색 토큰에 승인된 페어링만 허용, 테마별 토큰 분리, AA 미달 시 CI hard-fail(axe-core + Lighthouse).
-- **숫자/통화 표시(금융 핵심):** `font-variant-numeric: lining-nums tabular-nums`(표에서 소수점 흔들림 방지)를 **타이포 토큰에 별도 변형으로**. 값 포맷은 `Intl.NumberFormat`(currency)로 로케일별 처리.
-  - 출처: [WCAG3 as of April 2026 — Adrian Roselli](https://adrianroselli.com/2026/04/wcag3-contrast-as-of-april-2026.html), [fintech typography — readable money](https://medium.com/design-bootcamp/the-elements-of-fintech-typography-part-1-readable-money-b6c1226acbde), [Intl.NumberFormat — MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat)
-- **신뢰성:** 토큰/컴포넌트의 변경을 Changesets로 추적하고 Chromatic 시각 회귀로 의도치 않은 변화 차단 — 금융 UI의 시각적 신뢰성 유지에 직결.
+- **숫자 표시:** `font-variant-numeric: lining-nums tabular-nums`(표에서 소수점 흔들림 방지)를 **타이포 토큰에 별도 변형으로**. 값 포맷은 `Intl.NumberFormat`으로 로케일별 처리.
+  - 출처: [WCAG3 as of April 2026 — Adrian Roselli](https://adrianroselli.com/2026/04/wcag3-contrast-as-of-april-2026.html), [Intl.NumberFormat — MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat)
+- **신뢰성:** 토큰/컴포넌트의 변경을 Changesets로 추적하고 Chromatic 시각 회귀로 의도치 않은 변화 차단.
 
 ### 4-4. 트레이드오프
-- **Biome 올인원 vs ESLint+Prettier:** Biome는 설정 최소·고속이나 jsx-a11y 등 일부 전문 룰/플러그인 커버리지가 ESLint 생태계보다 좁을 수 있음. 금융 접근성 룰(jsx-a11y) 의존이 크면 ESLint v9 + Prettier가 안전.
+- **Biome 올인원 vs ESLint+Prettier:** Biome는 설정 최소·고속이나 jsx-a11y 등 일부 전문 룰/플러그인 커버리지가 ESLint 생태계보다 좁을 수 있음. 접근성 룰 커버리지가 중요하면 ESLint v9 + Prettier가 안전.
 - **Turborepo vs Nx:** 단일 목적 디자인 시스템엔 Turborepo가 단순·충분. 다만 향후 멀티 앱/멀티 프레임워크로 확장 계획이 크면 Nx의 구조 강제가 이득일 수 있음.
 - **tsdown(빠름·미래지향, 0.x 불안정) vs tsup(안정·큰 커뮤니티, 유지보수 중단):** 둘 다 트레이드오프가 있어 컴포넌트 빌드를 실제로 시작하는 시점에 재평가가 합리적.
 - **ESM-only vs dual(ESM+CJS):** 신규·웹 중심이면 ESM-only가 단순하나, CJS 소비자(레거시 Next/도구) 지원이 필요하면 dual. 소비자 범위 정의가 선행돼야 함.
 
 ## 5. 미해결 질문 / 개발자 검토 필요 지점
 
-1. **린트/포맷 노선** — Biome 올인원(속도·단순) vs ESLint v9 + Prettier(접근성 플러그인 생태계). 금융 접근성(jsx-a11y) 비중에 따라 결정 필요. → 의사결정 필요.
+1. **린트/포맷 노선** — Biome 올인원(속도·단순) vs ESLint v9 + Prettier(접근성 플러그인 생태계). 접근성 린트 커버리지 요구에 따라 결정 필요. → 의사결정 필요.
 2. **스타일링 전략** — 환경 구성 단계에선 보류 가능하나, 디렉터리/토큰 출력 형태에 영향. Panda CSS / vanilla-extract / Tailwind v4 중 방향성은 일찍 정해두는 게 유리. → 검토 필요.
 3. **번들 포맷(ESM-only vs dual)** — 라이브러리 소비자 환경(Next.js 버전, RSC 사용 여부, 사내 레거시 번들러)을 알아야 결정 가능. → 소비처 정보 필요.
 4. **RSC 대응 범위** — 컴포넌트를 RSC(서버 컴포넌트) 환경에서도 쓸 계획인지에 따라 `"use client"` 처리·번들 전략이 달라짐. → 확인 필요.
-5. **원격 캐시/CI** — Turborepo Remote Cache(Vercel 무료) 사용 여부, CI 플랫폼(GitHub Actions 가정). 사내 정책상 외부 캐시 사용 가능한지(금융권 보안 정책). → 보안/인프라 검토 필요.
+5. **원격 캐시/CI** — Turborepo Remote Cache(Vercel 무료) 사용 여부, CI 플랫폼(GitHub Actions 가정). 외부 캐시 사용 가능 여부와 인프라 정책 확인 필요. → 보안/인프라 검토 필요.
 6. **tsdown 0.x 채택 리스크** — 미래지향적이나 안정 버전 미도달. 안정성 우선 조직이면 컴포넌트 추가 시점에 재평가. → 판단 필요.

@@ -1,6 +1,6 @@
 # AGENTS.md — Codex 작업 지침 (실행 담당)
 
-이 레포(BDS, 금융 도메인 React 디자인 시스템)에서 Codex는 **실행(execution)** 을 맡는다. 컴포넌트 구현·토큰 빌드·스크립트 실행·문서 사이트/스토리·시각 산출이 본분이고, 조사·계획·리스크 판단은 Claude Code에 맡긴다. 역할 분담과 현황판 운영은 [`docs/collab-protocol.md`](docs/collab-protocol.md)와 [`PROJECT.md`](PROJECT.md)를 따른다.
+이 레포(BDS, React 디자인 시스템)에서 Codex는 **실행(execution)** 을 맡는다. 컴포넌트 구현·토큰 빌드·스크립트 실행·문서 사이트/스토리·시각 산출이 본분이고, 조사·계획·리스크 판단은 Claude Code에 맡긴다. 역할 분담과 현황판 운영은 [`docs/collab-protocol.md`](docs/collab-protocol.md)와 [`PROJECT.md`](PROJECT.md)를 따른다.
 
 ## 기본 원칙
 
@@ -33,7 +33,7 @@
 ## 산출물 기준
 
 - **컴포넌트**: 계획의 API를 준수, 접근성 속성 포함, 빌드·타입·테스트 통과.
-- **시각 산출물**: 실제 브랜드 로고·미승인 자산 사용 금지. DESIGN.md 기준 준수, 금융 효능·수익 과장 표현 금지.
+- **시각 산출물**: 실제 브랜드 로고·미승인 이미지·자료 사용 금지. DESIGN.md 기준 준수, 효능·성과 과장 표현 금지.
 - 상세 템플릿은 [`docs/templates.md`](docs/templates.md)를 따른다.
 
 ## 커밋 규칙
