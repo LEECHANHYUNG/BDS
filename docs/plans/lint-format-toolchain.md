@@ -1,6 +1,6 @@
 # Plan: 린트/포맷 노선 전환 — Biome 제거 → oxlint + oxfmt
 
-> 작성: 2026-06-20 · 상태: **구현 중 — Codex 실행 시작**
+> 작성: 2026-06-20 · 상태: **구현 완료 — Codex 실행 완료**
 > 조사: [`docs/research/lint-format-toolchain.md`](../research/lint-format-toolchain.md) (그릴링 결정 블록 포함)
 > 결정 근거: 학습 동기(현업 oxc 운영 대비) + 코드 0줄 타이밍. 제품 합리성만 보면 Biome 유지였으나 의식적으로 oxc 채택.
 
@@ -180,7 +180,7 @@ tools:
 
 ### F. 현황판
 
-- [ ] F1. `PROJECT.md` Decisions에 oxc 전환 결정 1줄, Handoff Log에 변경/검증/next 1줄, Goal 갱신
+- [x] F1. `PROJECT.md` Decisions에 oxc 전환 결정 1줄, Handoff Log에 변경/검증/next 1줄, Goal 갱신
 
 ### 재평가 트리거 (ADR-0008에 박제 — 작업 아님, 미래 조건)
 
