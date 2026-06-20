@@ -36,3 +36,17 @@
 - 커밋 메시지는 **한국어**, **Conventional Commit** 형식 (예: `feat: 툴팁 컴포넌트 추가`, `fix: 포맷 오류 수정`).
 - `Co-Authored-By`를 포함하지 않는다.
 - 커밋·푸시는 사용자가 요청할 때만 한다.
+
+## Agent skills
+
+### Issue tracker
+
+이슈는 GitHub Issues(`gh` CLI)에서 추적한다. 외부 PR은 트리아지 표면이 아니다. `docs/agents/issue-tracker.md` 참고.
+
+### Triage labels
+
+기본 라벨 어휘(`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`)를 그대로 사용한다. `docs/agents/triage-labels.md` 참고.
+
+### Domain docs
+
+단일 컨텍스트 — 루트의 `CONTEXT.md` + `docs/adr/`. `docs/agents/domain.md` 참고.
