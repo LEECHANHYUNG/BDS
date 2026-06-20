@@ -168,8 +168,8 @@ tools:
 
 ### D. CodeRabbit 정합
 
-- [ ] D1. `.coderabbit.yaml` `tools.biome.enabled:false` + `tools.oxc.enabled:true` 교체 — 검증: yaml 스키마 유효, oxc 키 사용(oxlint 아님)
-- [ ] D2. `.coderabbit.yaml` profile 근거 주석(line 10~11 "Biome이 ... 잡으므로")을 oxlint 기준으로 갱신
+- [x] D1. `.coderabbit.yaml` `tools.biome.enabled:false` + `tools.oxc.enabled:true` 교체 — 검증: yaml 스키마 유효, oxc 키 사용(oxlint 아님)
+- [x] D2. `.coderabbit.yaml` profile 근거 주석(line 10~11 "Biome이 ... 잡으므로")을 oxlint 기준으로 갱신
 
 ### E. ADR / 문서 정합 (역사 보존)
 

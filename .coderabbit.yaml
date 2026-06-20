@@ -7,7 +7,7 @@
 language: "ko-KR"
 
 reviews:
-  # Biome이 포맷·스타일·기본 린트를 이미 잡으므로, CodeRabbit은 설계·로직·
+  # oxlint/oxfmt가 포맷·기본 정적 검사를 잡으므로, CodeRabbit은 설계·로직·
   # 접근성·도메인 위험에 집중한다. chill = 유의미한 이슈만, nit 폭격 지양.
   profile: "chill"
 
@@ -58,9 +58,11 @@ reviews:
           breaking change라면 마이그레이션 경로가 적혔는지 확인한다.
 
   tools:
-    # Biome: 레포의 biome.json을 그대로 사용. 로컬 `pnpm check`와 동일 룰로 신호 일관.
-    biome:
+    # oxlint: CodeRabbit 키는 oxc다. Biome이 켜져 있으면 oxlint가 돌지 않으므로 false/true를 함께 둔다.
+    oxc:
       enabled: true
+    biome:
+      enabled: false
     # 공개 npm 레포라 시크릿 유출 방지를 켜둔다.
     gitleaks:
       enabled: true
