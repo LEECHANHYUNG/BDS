@@ -1,0 +1,9 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  // Biome 스타일 연속성: double quote + space indent.
+  "singleQuote": false,
+  "useTabs": false,
+  "tabWidth": 2,
+  // oxfmt 기본값을 명시해 학습 목적의 전환 결정을 박제한다.
+  "printWidth": 100,
+}

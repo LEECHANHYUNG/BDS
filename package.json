@@ -1,21 +1,24 @@
 {
   "name": "bds",
   "private": true,
-  "packageManager": "pnpm@10.10.0",
-  "engines": {
-    "node": ">=22"
-  },
   "scripts": {
-    "lint": "turbo run lint",
-    "format": "biome format --write .",
-    "check": "biome check --write .",
+    "lint": "oxlint --no-error-on-unmatched-pattern",
+    "lint:fix": "oxlint --fix --no-error-on-unmatched-pattern",
+    "format": "oxfmt .",
+    "format:check": "oxfmt --check .",
+    "check": "oxlint --no-error-on-unmatched-pattern && oxfmt --check .",
     "changeset": "changeset",
     "version-packages": "changeset version",
     "release": "turbo run build && changeset publish"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.16",
     "@changesets/cli": "^2.31.0",
+    "oxfmt": "0.55.0",
+    "oxlint": "^1.70.0",
     "turbo": "^2.9.16"
-  }
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@10.10.0"
 }

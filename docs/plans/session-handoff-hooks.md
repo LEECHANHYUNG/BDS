@@ -8,6 +8,7 @@
 세션이 끝날 때 그 세션을 4항목으로 요약한 `./handoff.md`를 자동 생성하고, 새 세션이 시작될 때 그 내용을 컨텍스트에 자동 주입한다. 세션 간 맥락 유실("어제 뭐 하다 말았더라")을 없애는 게 목적.
 
 **4항목 형식** (사용자 지정):
+
 1. 오늘 한 일 (3줄 요약)
 2. 다음 세션에서 가장 먼저 할 일
 3. 절대 하지 말 것 (이미 시도했는데 안 된 것 / 지금 건드리면 안 되는 것)
@@ -16,6 +17,7 @@
 **달성하는 것**: 3개 훅(Stop·SessionEnd·SessionStart)과 2개 bash 스크립트, `.claude/settings.json` 신규 작성, `.gitignore` 한 줄 추가.
 
 **달성하지 않는 것 (범위 경계)**:
+
 - PROJECT.md(팀 현황판)를 대체하거나 자동 갱신하지 않는다. handoff.md는 **개인용 단기 메모**로 분리한다 (조사 §5-2 결론).
 - handoff 히스토리 보관(날짜별 누적)은 하지 않는다. 단일 파일 덮어쓰기.
 
@@ -43,12 +45,14 @@
 stdin JSON에서 `transcript_path`를 꺼내 그 JSONL을 `claude -p`에 물려 4항목 요약을 받아 `./handoff.md`에 덮어쓴다.
 
 **(미해결 c) claude -p 정확한 호출 형식**:
+
 - transcript JSONL은 통째로는 너무 크고 토큰 낭비라, `jq`로 user/assistant 텍스트만 추출해 프롬프트에 동봉한다.
 - 프롬프트는 stdin이 아니라 인자로 주되, transcript 본문은 heredoc/파이프로 stdin에 흘려넣어 프롬프트가 그것을 요약하게 한다.
 - `--output-format text`(기본) 사용. JSON 파싱 불필요 — 출력이 곧 handoff.md 본문.
 
 **(미해결 a) 재귀/무한루프 가드 — 가장 중요**:
 SessionEnd 훅이 `claude -p`를 부르면, 그 headless 자식 세션이 끝날 때 **또 SessionEnd 훅이 발화**해 무한 재귀에 빠질 수 있다. 3중 가드를 건다:
+
 1. **환경변수 가드**: 훅 스크립트 진입 시 `HANDOFF_HOOK_RUNNING`이 이미 set이면 즉시 `exit 0`. `claude -p` 호출 직전 이 변수를 export → 자식이 발화시킨 훅은 이 변수를 보고 스스로 빠진다.
 2. **`--settings` 우회 (검증 필요)**: `claude -p` 호출 시 빈 훅 설정을 주입하는 플래그가 있는지 구현 단계에서 실측한다. 환경변수 가드가 1차 방어선이므로 이건 보조.
 3. **타임아웃**: 훅에 `timeout`(예: 120s)을 걸어 `claude -p`가 행 걸려도 세션 종료가 멈추지 않게 한다. settings.json의 훅 `timeout` 필드로도 상한을 건다.
@@ -98,7 +102,11 @@ SessionEnd 훅이 `claude -p`를 부르면, 그 headless 자식 세션이 끝날
     "SessionEnd": [
       {
         "hooks": [
-          { "type": "command", "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/handoff-write.sh", "timeout": 120 }
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/handoff-write.sh",
+            "timeout": 120
+          }
         ]
       }
     ],
