@@ -16,13 +16,13 @@
 진행 중인 파일과 담당자, 락 상태를 적는다. 형식: `경로 — 담당 도구 · 상태`.
 `✓ locked` 표시가 있는 파일은 **담당이 아닌 도구가 직접 수정 금지**(읽기·리뷰만 가능).
 
-| 파일 | 담당 | 상태 |
-| --- | --- | --- |
-| `package.json`, `pnpm-lock.yaml` | Codex | 작업 중 ✓ locked |
-| `biome.json`(삭제), `.oxlintrc.json`, `.oxfmtrc.jsonc`(신설) | Codex | 작업 중 ✓ locked |
-| `.coderabbit.yaml`, `turbo.json` | Codex | 작업 중 ✓ locked |
+| 파일                                                                                      | 담당  | 상태             |
+| ----------------------------------------------------------------------------------------- | ----- | ---------------- |
+| `package.json`, `pnpm-lock.yaml`                                                          | Codex | 작업 중 ✓ locked |
+| `biome.json`(삭제), `.oxlintrc.json`, `.oxfmtrc.jsonc`(신설)                              | Codex | 작업 중 ✓ locked |
+| `.coderabbit.yaml`, `turbo.json`                                                          | Codex | 작업 중 ✓ locked |
 | `docs/adr/0004·0007`(갱신), `docs/adr/0008`(신설), `docs/research/monorepo-foundation.md` | Codex | 작업 중 ✓ locked |
-| `docs/plans/lint-format-toolchain.md` | Codex | 작업 중 ✓ locked |
+| `docs/plans/lint-format-toolchain.md`                                                     | Codex | 작업 중 ✓ locked |
 
 ## Decisions
 
@@ -44,7 +44,7 @@
 ```
 
 - [Claude Code] changed: docs/research/lint-format-toolchain.md, docs/plans/lint-format-toolchain.md, PROJECT.md / verified: 그릴링 8건 결정 박제, 미해결 2건(CodeRabbit oxlint 지원=oxc 키·Biome off 필요 / oxc 설정 형식) 웹 조사로 해소, 계획서 §5 결정 5건 확정·§6 할 일 19개 확정, 노트 사이클 완료(주석 0) / next: Codex가 docs/plans/lint-format-toolchain.md대로 oxc 전환 구현(A~F 그룹). 구현 후 Claude Code가 계획 준수·접근성·파급 리뷰
-- [Claude Code] changed: .coderabbit.yaml, docs/adr/0007-coderabbit-review-config.md, PROJECT.md (브랜치 chore/coderabbit-config) / verified: 그릴링 8개 결정 yaml 반영, CodeRabbit 스키마 키 검증(language·reviews.profile·request_changes_workflow·auto_review.drafts·tools.biome/gitleaks/markdownlint·path_filters·path_instructions·chat·knowledge_base), 실재 경로만 path_instructions에 사용 / next: PR 생성·머지 후 CodeRabbit 첫 리뷰 동작 확인. CI 도입 시 request_changes_workflow→true, 첫 컴포넌트 시 packages/** path_instructions 추가(ADR-0007 트리거)
+- [Claude Code] changed: .coderabbit.yaml, docs/adr/0007-coderabbit-review-config.md, PROJECT.md (브랜치 chore/coderabbit-config) / verified: 그릴링 8개 결정 yaml 반영, CodeRabbit 스키마 키 검증(language·reviews.profile·request_changes_workflow·auto_review.drafts·tools.biome/gitleaks/markdownlint·path_filters·path_instructions·chat·knowledge_base), 실재 경로만 path_instructions에 사용 / next: PR 생성·머지 후 CodeRabbit 첫 리뷰 동작 확인. CI 도입 시 request_changes_workflow→true, 첫 컴포넌트 시 packages/\*\* path_instructions 추가(ADR-0007 트리거)
 - [Claude Code] changed: docs/adr/0004~0006 (모노레포 골격 스택·패키지 구조·보류 항목), PROJECT.md / verified: 결정과 기존 설정 파일(.changeset/config.json fixed:[]·linked:[], pnpm-workspace catalog:{}) 정합 확인 — 파일 변경 불필요. ADR은 그릴링 결정 7건을 3개로 묶어 기록 / next: 첫 패키지(@bds/tokens·@bds/react) 추가 시 ADR-0006 트리거대로 번들러·exports·a11y 보강 결정 (Codex 핸드오프 대상)
 - [Claude Code] changed: .claude/hooks/{handoff-snapshot,handoff-write,handoff-inject}.sh, .claude/settings.json, .gitignore / verified: B·C 그룹 전부 통과 — 문법검사·JSON유효성 OK, snapshot 기록 OK, write가 실제 claude -p로 4항목 handoff.md 생성 OK, 재귀가드 OK, inject 주입 OK, 실패시 exit0 OK, gitignore OK. (남은 것: 실세션 end-to-end는 다음 세션에서) / next: _(완료)_
 - [Claude Code] changed: docs/plans/session-handoff-hooks.md (G1~G4 [x]) / verified: 게이트 4개 실측 통과 — claude -p headless OK, transcript jq 필터 OK, CLAUDE_PROJECT_DIR=BDS루트 OK, HANDOFF_HOOK_RUNNING 환경변수 자식 훅 전파 OK(재귀 가드 작동) / next: B·C 그룹 직접 구현

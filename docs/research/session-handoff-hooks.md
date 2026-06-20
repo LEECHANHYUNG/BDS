@@ -58,8 +58,13 @@
 ### (4) 훅 공통 stdin JSON
 
 ```json
-{ "session_id": "...", "hook_event_name": "...", "cwd": "...",
-  "transcript_path": "/path/to/transcript.jsonl", "permission_mode": "..." }
+{
+  "session_id": "...",
+  "hook_event_name": "...",
+  "cwd": "...",
+  "transcript_path": "/path/to/transcript.jsonl",
+  "permission_mode": "..."
+}
 ```
 
 - `transcript_path` → **JSONL 파일**. 각 줄이 user/assistant 메시지·도구 호출 결과를 담은 JSON 객체. 즉 세션 전체 대화가 들어있다.
@@ -84,11 +89,11 @@
 
 **내 초기 진단 정정:**
 
-| 내 초기 주장 | 검증 결과 |
-|---|---|
-| "Stop은 세션 종료가 아니라 매 턴 돈다" | ✅ **맞음** — Stop에 요약 걸면 매 턴 재생성됨 |
-| "true 세션 종료 훅이 없다" | ❌ **틀림** — `SessionEnd`(reason=clear/logout/...)가 존재 |
-| "bash만으로는 지능형 요약 불가" | ✅ **맞음** — 지능형 요약엔 `claude -p` 필요 |
+| 내 초기 주장                           | 검증 결과                                                  |
+| -------------------------------------- | ---------------------------------------------------------- |
+| "Stop은 세션 종료가 아니라 매 턴 돈다" | ✅ **맞음** — Stop에 요약 걸면 매 턴 재생성됨              |
+| "true 세션 종료 훅이 없다"             | ❌ **틀림** — `SessionEnd`(reason=clear/logout/...)가 존재 |
+| "bash만으로는 지능형 요약 불가"        | ✅ **맞음** — 지능형 요약엔 `claude -p` 필요               |
 
 **따라서 기술적으로 가능하다. 단, 사용자가 말한 "Stop 훅"이 아니라 `SessionEnd` 훅이 정답이다.**
 

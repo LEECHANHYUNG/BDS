@@ -84,14 +84,14 @@
 변경안 (확정):
 
 ```json
-"lint": "oxlint",
-"lint:fix": "oxlint --fix",
+"lint": "oxlint --no-error-on-unmatched-pattern",
+"lint:fix": "oxlint --fix --no-error-on-unmatched-pattern",
 "format": "oxfmt .",
 "format:check": "oxfmt --check .",
-"check": "oxlint && oxfmt --check ."
+"check": "oxlint --no-error-on-unmatched-pattern && oxfmt --check ."
 ```
 
-> `check` = **검증 전용(비파괴)** 으로 확정(§5). 수정은 `lint:fix`(oxlint 자동수정) + `format`(oxfmt in-place)으로 분리. 검증이 비파괴여야 향후 CI에 그대로 올릴 수 있다.
+> `check` = **검증 전용(비파괴)** 으로 확정(§5). 수정은 `lint:fix`(oxlint 자동수정) + `format`(oxfmt in-place)으로 분리. 코드 0줄 레포에서 `oxlint`가 "No files found"로 실패하지 않도록 `--no-error-on-unmatched-pattern`만 붙인다. 검증이 비파괴여야 향후 CI에 그대로 올릴 수 있다.
 
 ### `.oxlintrc.json` (신설안)
 
@@ -136,7 +136,7 @@ tools:
 ## 5. 고려사항 / 트레이드오프 (결정 확정)
 
 - **printWidth → `100` 확정.** oxfmt 기본값(100)을 수용한다. Biome는 80이었으나 코드 0줄이라 재포맷 충격 없고, oxc 생태계 기본을 따르는 게 "oxc 운영 감각" 학습 동기에 부합하고 설정도 최소화된다. → `.oxfmtrc.jsonc`에서 `printWidth`를 **명시하지 않거나(zero-config로 100) 100을 명시**. (명시 쪽 채택 — 의도를 박제.)
-- **`check` 스크립트 → 검증 전용(비파괴) 확정.** `check`는 `oxlint && oxfmt --check`로 **수정하지 않고 검증만** 한다. 수정은 `lint:fix`+`format`으로 분리. 근거: 검증이 비파괴여야 향후 CI 단계에 그대로 올릴 수 있다(파괴적 check는 CI에서 못 씀).
+- **`check` 스크립트 → 검증 전용(비파괴) 확정.** `check`는 `oxlint --no-error-on-unmatched-pattern && oxfmt --check`로 **수정하지 않고 검증만** 한다. 수정은 `lint:fix`+`format`으로 분리. 근거: 검증이 비파괴여야 향후 CI 단계에 그대로 올릴 수 있다(파괴적 check는 CI에서 못 씀).
 - **oxlint 엄격도 → 지금은 `correctness`만 확정.** `suspicious`/`pedantic`은 컴포넌트가 생겨 실측한 뒤 트리거 C(a11y/룰 부족 실측)에 묶어 판단. 지금 박으면 잡을 코드 없는 죽은 설정.
 - **turbo `lint` 태스크 → 지금은 변경 최소 확정.** 루트 `pnpm lint`=oxlint 직접 호출로 두고, **실질 코드(패키지)가 추가되면** turbo 파이프라인 편입을 검토. (`turbo.json`은 빈 `lint`/`check` 태스크 유지.)
 - **oxfmt 버전 → 정확 버전 고정 확정.** `oxfmt`를 캐럿(`^`)이 아니라 **정확 버전(예: `0.55.0`)으로 핀 고정**해 0.x 마이너 업데이트의 포맷 스타일 변동 잡음을 차단. (oxlint는 stable이므로 캐럿 허용 — 단 일관성 위해 oxlint도 고정할지는 §6 참고.)
@@ -147,36 +147,43 @@ tools:
 > 위→아래 순서로 진행. 각 작업은 검증 게이트가 통과해야 다음으로 넘어간다.
 
 ### A. 의존성 교체
+
 - [x] A1. `pnpm remove @biomejs/biome` (루트 devDep에서 제거) — 검증: `package.json`에 `@biomejs/biome` 없음
 - [x] A2. `pnpm add -Dw oxlint` (캐럿 허용 — oxlint는 stable/SemVer라 마이너 업데이트가 린트를 안 깨고 룰 개선을 받음)
 - [x] A3. `pnpm add -DwE oxfmt`(또는 정확 버전 명시) — **정확 버전 고정**(`-E`/exact)으로 0.x 포맷 변동 잡음 차단. 검증: `package.json`의 oxfmt가 `^` 없이 정확 버전(예: `0.55.0`)
 - [x] A4. `pnpm install` 후 `pnpm-lock.yaml` 갱신 — 검증: lock에 biome 흔적 없음, oxlint/oxfmt 존재
 
 ### B. 설정 파일
+
 - [x] B1. `biome.json` 삭제 — 검증: 파일 없음
 - [x] B2. `.oxlintrc.json` 신설 (plugins: react·jsx-a11y·typescript·import / categories.correctness:error / 룰 근거 주석) — 검증: 로컬 `oxlint --config .oxlintrc.json` 또는 `oxlint`가 설정을 에러 없이 파싱
 - [x] B3. `.oxfmtrc.jsonc` 신설 (singleQuote:false / useTabs:false / tabWidth:2 / printWidth:100 + 주석) — 검증: `oxfmt --check .`가 설정을 에러 없이 읽음
 
 ### C. 스크립트 & 동작 검증
-- [ ] C1. `package.json` scripts 교체 (lint/lint:fix/format/format:check/check — §4 확정안) — 검증: 아래 C2~C4
-- [ ] C2. `pnpm lint` 성공 (코드 0줄이라 빈 통과여도 명령 exit 0) 
-- [ ] C3. `pnpm format` 성공 (in-place, 변경 없음 확인)
-- [ ] C4. `pnpm check` 성공 (oxlint + oxfmt --check, 비파괴)
+
+- [x] C1. `package.json` scripts 교체 (lint/lint:fix/format/format:check/check — §4 확정안) — 검증: 아래 C2~C4
+- [x] C2. `pnpm lint` 성공 (코드 0줄이라 빈 통과여도 명령 exit 0)
+- [x] C3. `pnpm format` 성공 (in-place, oxfmt 기준 포맷 diff 발생해 커밋 포함)
+- [x] C4. `pnpm check` 성공 (oxlint + oxfmt --check, 비파괴)
 
 ### D. CodeRabbit 정합
+
 - [ ] D1. `.coderabbit.yaml` `tools.biome.enabled:false` + `tools.oxc.enabled:true` 교체 — 검증: yaml 스키마 유효, oxc 키 사용(oxlint 아님)
 - [ ] D2. `.coderabbit.yaml` profile 근거 주석(line 10~11 "Biome이 ... 잡으므로")을 oxlint 기준으로 갱신
 
 ### E. ADR / 문서 정합 (역사 보존)
+
 - [ ] E1. `docs/adr/0004-...md` 상단에 `> **Superseded by [ADR-0008](0008-...md)**` 표기 (본문은 보존)
 - [ ] E2. `docs/adr/0008-lint-format-oxc.md` 신설 — 결정/근거(학습 동기 + 코드 0줄 타이밍, 조사는 Biome 유지였으나 의식적으로 뒤집음)/Considered Options(Biome 유지)/재평가 트리거 A·B·C
 - [ ] E3. `docs/adr/0007-...md` Biome 전제 서술(profile chill 근거·tools.biome) → oxlint 기준으로 갱신 + Consequences에 tools 변경 사유
 - [ ] E4. `docs/research/monorepo-foundation.md:77` "oxfmt beta 시기상조" 줄에 "→ ADR-0008에서 학습 동기로 oxc 채택 결정" 주석
 
 ### F. 현황판
+
 - [ ] F1. `PROJECT.md` Decisions에 oxc 전환 결정 1줄, Handoff Log에 변경/검증/next 1줄, Goal 갱신
 
 ### 재평가 트리거 (ADR-0008에 박제 — 작업 아님, 미래 조건)
+
 - **A**: oxfmt 1.0 stable 안 되고 0.x 정체/포맷 깨짐 반복 → Biome 복귀 또는 oxfmt만 Prettier 교체 검토
 - **B**: type-aware 린트가 실제 필요해짐(비동기·복잡 제네릭 API) → ESLint 타입 룰 보조 추가
 - **C**: a11y 정적 룰이 oxlint에서 부족하다 실측 → 개별 룰 추가 또는 ESLint jsx-a11y 보조

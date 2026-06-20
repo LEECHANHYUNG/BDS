@@ -90,7 +90,7 @@ BDS/
 
 | 경로                     | 목적                                                                                   |
 | ------------------------ | -------------------------------------------------------------------------------------- |
-| `.git/` (via `git init`) | Changesets 전제. 신규 저장소 초기화 + 원격 공개 저장소 `LEECHANHYUNG/BDS` 연결          |
+| `.git/` (via `git init`) | Changesets 전제. 신규 저장소 초기화 + 원격 공개 저장소 `LEECHANHYUNG/BDS` 연결         |
 | `.gitignore`             | `node_modules`, `.turbo`, `dist`, 로그 등 제외                                         |
 | `.npmrc`                 | pnpm 동작 설정 (예: `auto-install-peers`, `shamefully-hoist=false`)                    |
 | `package.json` (루트)    | `private: true`, `packageManager`, workspace 스크립트, devDeps(turbo/biome/changesets) |
@@ -100,7 +100,7 @@ BDS/
 | `.changeset/config.json` | Changesets 설정 (`changeset init` 산출물)                                              |
 | `apps/.gitkeep`          | 빈 워크스페이스 디렉터리 유지                                                          |
 | `packages/.gitkeep`      | 빈 워크스페이스 디렉터리 유지                                                          |
-| `README.md`              | 모노레포 소개 + AI 기반 워크플로 설명 (아래 2-6 명세 참고)                              |
+| `README.md`              | 모노레포 소개 + AI 기반 워크플로 설명 (아래 2-6 명세 참고)                             |
 
 ## 4. 코드 스니펫 (초안 — 검토용, 버전은 설치 시점 확정)
 
@@ -203,38 +203,46 @@ catalog: {}
 ## 6. 할 일 목록
 
 ### A. git 저장소 초기화 & 원격 연동
+
 - [x] `git init` (기본 브랜치 `main`으로 설정)
 - [x] `.gitignore` 작성 (`node_modules`, `.turbo`, `dist`, `*.log`, `.DS_Store` 등)
 
 ### B. 패키지 매니저 / 워크스페이스 골격
+
 - [x] 루트 `package.json` 생성 (`name: bds`, `private: true`, `packageManager: pnpm@10.10.0`, `engines.node: >=22`)
 - [x] `pnpm-workspace.yaml` 생성 (`apps/*`, `packages/*` 글롭 + 빈 `catalog`)
 - [x] `.npmrc` 생성 (pnpm 동작 설정)
 - [x] `apps/.gitkeep`, `packages/.gitkeep` 생성
 
 ### C. Turborepo
+
 - [x] `turbo`를 루트 devDependency로 설치 (2.9.16)
 - [x] `turbo.json` 생성 (`lint`/`check`/`build`/`test` 태스크 자리 선언)
 - [x] 루트 `package.json`에 `lint`/`format`/`check` 스크립트 추가 (`lint`은 `turbo run lint`)
 
 ### D. Biome v2 (lint + format)
+
 - [x] `@biomejs/biome`를 루트 devDependency로 설치 (2.4.16)
 - [x] `biome.json` 생성 (formatter+linter recommended, `space`/`double`/세미콜론 기본, git `vcs` 연동)
 - [x] `pnpm check` 실행해 정상 동작 확인 (4개 파일 검사 통과)
 
 ### E. Changesets
+
 - [x] `@changesets/cli`를 루트 devDependency로 설치 (2.31.0)
 - [x] `pnpm changeset init` 실행 → `.changeset/config.json` 생성
 - [x] `.changeset/config.json` 조정 (`access: public`, `baseBranch: main`)
 
 ### F. README
+
 - [x] 루트 `README.md` 작성 (한국어): 프로젝트 소개 / AI 기반 작업 방식 / 스킬 2종(`research-phase`, `plan-phase`) 설명 / 조사→계획→실행 흐름 / 기본 명령·구조 요약
 
 ### G. 설치 & 검증
+
 - [x] `pnpm install` 정상 동작 확인
 - [x] `pnpm check` / `pnpm lint` / `pnpm format` 정상 동작 확인 (check 5파일 통과, lint는 패키지 0개라 no-op)
 - [x] `pnpm changeset` 동작 확인 (CLI 정상 설치·실행. `status`의 HEAD diverge 에러는 커밋 0개라서 나는 예상된 상태로, 첫 커밋 후 해소됨)
 
 ### H. 첫 커밋 & 원격 연결
+
 - [x] 전체를 첫 커밋 (`chore: 모노레포 기반 환경 구성`)
 - [x] `gh repo create BDS --public --source=. --remote=origin --push`로 공개 원격 저장소 생성 및 푸시 (https://github.com/LEECHANHYUNG/BDS)
