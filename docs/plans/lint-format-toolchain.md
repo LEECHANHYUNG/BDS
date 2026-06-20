@@ -153,9 +153,9 @@ tools:
 - [x] A4. `pnpm install` 후 `pnpm-lock.yaml` 갱신 — 검증: lock에 biome 흔적 없음, oxlint/oxfmt 존재
 
 ### B. 설정 파일
-- [ ] B1. `biome.json` 삭제 — 검증: 파일 없음
-- [ ] B2. `.oxlintrc.json` 신설 (plugins: react·jsx-a11y·typescript·import / categories.correctness:error / 룰 근거 주석) — 검증: 로컬 `oxlint --config .oxlintrc.json` 또는 `oxlint`가 설정을 에러 없이 파싱
-- [ ] B3. `.oxfmtrc.jsonc` 신설 (singleQuote:false / useTabs:false / tabWidth:2 / printWidth:100 + 주석) — 검증: `oxfmt --check .`가 설정을 에러 없이 읽음
+- [x] B1. `biome.json` 삭제 — 검증: 파일 없음
+- [x] B2. `.oxlintrc.json` 신설 (plugins: react·jsx-a11y·typescript·import / categories.correctness:error / 룰 근거 주석) — 검증: 로컬 `oxlint --config .oxlintrc.json` 또는 `oxlint`가 설정을 에러 없이 파싱
+- [x] B3. `.oxfmtrc.jsonc` 신설 (singleQuote:false / useTabs:false / tabWidth:2 / printWidth:100 + 주석) — 검증: `oxfmt --check .`가 설정을 에러 없이 읽음
 
 ### C. 스크립트 & 동작 검증
 - [ ] C1. `package.json` scripts 교체 (lint/lint:fix/format/format:check/check — §4 확정안) — 검증: 아래 C2~C4
