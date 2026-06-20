@@ -147,10 +147,10 @@ tools:
 > 위→아래 순서로 진행. 각 작업은 검증 게이트가 통과해야 다음으로 넘어간다.
 
 ### A. 의존성 교체
-- [ ] A1. `pnpm remove @biomejs/biome` (루트 devDep에서 제거) — 검증: `package.json`에 `@biomejs/biome` 없음
-- [ ] A2. `pnpm add -Dw oxlint` (캐럿 허용 — oxlint는 stable/SemVer라 마이너 업데이트가 린트를 안 깨고 룰 개선을 받음)
-- [ ] A3. `pnpm add -DwE oxfmt`(또는 정확 버전 명시) — **정확 버전 고정**(`-E`/exact)으로 0.x 포맷 변동 잡음 차단. 검증: `package.json`의 oxfmt가 `^` 없이 정확 버전(예: `0.55.0`)
-- [ ] A4. `pnpm install` 후 `pnpm-lock.yaml` 갱신 — 검증: lock에 biome 흔적 없음, oxlint/oxfmt 존재
+- [x] A1. `pnpm remove @biomejs/biome` (루트 devDep에서 제거) — 검증: `package.json`에 `@biomejs/biome` 없음
+- [x] A2. `pnpm add -Dw oxlint` (캐럿 허용 — oxlint는 stable/SemVer라 마이너 업데이트가 린트를 안 깨고 룰 개선을 받음)
+- [x] A3. `pnpm add -DwE oxfmt`(또는 정확 버전 명시) — **정확 버전 고정**(`-E`/exact)으로 0.x 포맷 변동 잡음 차단. 검증: `package.json`의 oxfmt가 `^` 없이 정확 버전(예: `0.55.0`)
+- [x] A4. `pnpm install` 후 `pnpm-lock.yaml` 갱신 — 검증: lock에 biome 흔적 없음, oxlint/oxfmt 존재
 
 ### B. 설정 파일
 - [ ] B1. `biome.json` 삭제 — 검증: 파일 없음
