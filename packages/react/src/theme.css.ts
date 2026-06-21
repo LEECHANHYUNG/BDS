@@ -3,15 +3,40 @@ import { createGlobalThemeContract } from "@vanilla-extract/css";
 export const vars = createGlobalThemeContract(
   {
     color: {
-      primary: null,
-    },
-    spacing: {
-      button: {
-        x: null,
+      danger: {
+        background: null,
+        backgroundHover: null,
+        foreground: null,
+      },
+      focus: {
+        ring: null,
+      },
+      neutral: {
+        background: null,
+        backgroundHover: null,
+        foreground: null,
+      },
+      primary: {
+        background: null,
+        backgroundHover: null,
+        foreground: null,
       },
     },
+    spacing: {
+      control: {
+        x: null,
+        y: null,
+      },
+    },
+    radius: {
+      control: null,
+    },
     borderWidth: {
-      button: null,
+      control: null,
+    },
+    focusRing: {
+      offset: null,
+      width: null,
     },
   },
   (_value, path) =>

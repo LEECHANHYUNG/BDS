@@ -215,14 +215,14 @@ export function Button({ intent = "primary", className, ...props }: ButtonProps)
 
 ### C. `@bds/react` 패키지 + Button 슬라이스
 
-- [ ] C1. `packages/react/package.json` 생성 — `@bds/tokens` `workspace:*` 의존, exports(컴포넌트 + 추출 `.css`), build script(A2 선택 번들러), `publishConfig.access: public`. 단일 entry(서브패스는 추후).
-- [ ] C2. `packages/react/tsconfig.json` 생성.
-- [ ] C3. `src/theme.css.ts` — `createGlobalThemeContract`로 `@bds/tokens`의 `--bds-*`에 **타입 안전 매핑**(새 변수 생성 안 함, 변수명 일치).
-- [ ] C4. `src/Button/Button.css.ts` — vanilla-extract recipe, **semantic 토큰만** 참조(raw 색상 직접 사용 0), `:focus-visible` 포커스 링.
-- [ ] C5. `src/Button/Button.tsx` — base-ui 인터페이스 철학(prop·composition·controlled/uncontrolled) 차용, **base-ui 런타임 비의존**, intent variant.
-- [ ] C6. `src/index.ts` — Button + 타입 export.
-- [ ] C7. `pnpm --filter @bds/react build` 성공 → dist에 **정적 `.css` 추출**과 컴포넌트 JS·`.d.ts`가 함께 나오는지(`.css.ts` 미포함) 검증.
-- [ ] C8. 최소 렌더 검증 — Button이 semantic 토큰 색으로 렌더되고 `--bds-*` 변수를 소비하는지(임시 앱 또는 빌드 산출 점검).
+- [x] C1. `packages/react/package.json` 생성 — `@bds/tokens` `workspace:*` 의존, exports(컴포넌트 + 추출 `.css`), build script(A2 선택 번들러), `publishConfig.access: public`. 단일 entry(서브패스는 추후).
+- [x] C2. `packages/react/tsconfig.json` 생성.
+- [x] C3. `src/theme.css.ts` — `createGlobalThemeContract`로 `@bds/tokens`의 `--bds-*`에 **타입 안전 매핑**(새 변수 생성 안 함, 변수명 일치).
+- [x] C4. `src/Button/Button.css.ts` — vanilla-extract recipe, **semantic 토큰만** 참조(raw 색상 직접 사용 0), `:focus-visible` 포커스 링.
+- [x] C5. `src/Button/Button.tsx` — base-ui 인터페이스 철학(prop·composition·controlled/uncontrolled) 차용, **base-ui 런타임 비의존**, intent variant.
+- [x] C6. `src/index.ts` — Button + 타입 export.
+- [x] C7. `pnpm --filter @bds/react build` 성공 → dist에 **정적 `.css` 추출**과 컴포넌트 JS·`.d.ts`가 함께 나오는지(`.css.ts` 미포함) 검증.
+- [x] C8. 최소 렌더 검증 — Button이 semantic 토큰 색으로 렌더되고 `--bds-*` 변수를 소비하는지(임시 앱 또는 빌드 산출 점검).
 
 ### D. 워크스페이스 통합
 
