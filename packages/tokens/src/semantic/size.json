@@ -1,0 +1,18 @@
+{
+  "spacing": {
+    "control": {
+      "x": { "$type": "dimension", "$value": "{space.3}" },
+      "y": { "$type": "dimension", "$value": "{space.2}" }
+    }
+  },
+  "radius": {
+    "control": { "$type": "dimension", "$value": "{radius.2}" }
+  },
+  "borderWidth": {
+    "control": { "$type": "dimension", "$value": "{border.width.1}" }
+  },
+  "focusRing": {
+    "width": { "$type": "dimension", "$value": "{border.width.2}" },
+    "offset": { "$type": "dimension", "$value": "{border.width.2}" }
+  }
+}

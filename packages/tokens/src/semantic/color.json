@@ -1,0 +1,22 @@
+{
+  "color": {
+    "primary": {
+      "background": { "$type": "color", "$value": "{blue.9}" },
+      "backgroundHover": { "$type": "color", "$value": "{blue.10}" },
+      "foreground": { "$type": "color", "$value": "{gray.1}" }
+    },
+    "danger": {
+      "background": { "$type": "color", "$value": "{red.9}" },
+      "backgroundHover": { "$type": "color", "$value": "{red.10}" },
+      "foreground": { "$type": "color", "$value": "{gray.1}" }
+    },
+    "neutral": {
+      "background": { "$type": "color", "$value": "{gray.3}" },
+      "backgroundHover": { "$type": "color", "$value": "{gray.4}" },
+      "foreground": { "$type": "color", "$value": "{gray.12}" }
+    },
+    "focus": {
+      "ring": { "$type": "color", "$value": "{blue.11}" }
+    }
+  }
+}

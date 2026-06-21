@@ -1,4 +1,30 @@
+const publicSourceSegments = ["/semantic/", "/domain/"];
+
+const toKebab = (value) => value.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`);
+
+const isPublicToken = (token) =>
+  publicSourceSegments.some((segment) => token.filePath.includes(segment));
+
+const cssVarName = (token) => `--bds-${token.path.map(toKebab).join("-")}`;
+
+const publicTokens = (dictionary) => dictionary.allTokens.filter(isPublicToken);
+
 export default {
+  hooks: {
+    formats: {
+      "bds/javascript": ({ dictionary }) =>
+        `${publicTokens(dictionary)
+          .map(
+            (token) =>
+              `export const ${token.name} = ${JSON.stringify(`var(${cssVarName(token)})`)};`,
+          )
+          .join("\n")}\n`,
+      "bds/typescript-declarations": ({ dictionary }) =>
+        `${publicTokens(dictionary)
+          .map((token) => `export const ${token.name}: string;`)
+          .join("\n")}\n`,
+    },
+  },
   source: ["src/**/*.json"],
   platforms: {
     css: {
@@ -22,14 +48,11 @@ export default {
       files: [
         {
           destination: "index.js",
-          format: "javascript/es6",
-          options: {
-            outputReferences: true,
-          },
+          format: "bds/javascript",
         },
         {
           destination: "index.d.ts",
-          format: "typescript/es6-declarations",
+          format: "bds/typescript-declarations",
         },
       ],
     },

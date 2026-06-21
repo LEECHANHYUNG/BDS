@@ -204,14 +204,14 @@ export function Button({ intent = "primary", className, ...props }: ButtonProps)
 
 ### B. `@bds/tokens` 패키지
 
-- [ ] B1. `packages/tokens/package.json` 생성 — name `@bds/tokens`, `publishConfig.access: public`, build script, exports 맵(**semantic CSS + TS만** 노출, primitive 비공개).
-- [ ] B2. `packages/tokens/tsconfig.json` 생성(패키지 로컬, 공유 tsconfig 패키지는 만들지 않음 — ADR-0006).
-- [ ] B3. `packages/tokens/style-dictionary.config.*` 생성 — DTCG 입력, `outputReferences: true`, 출력 `css/variables`(`--bds-*`) + `typescript/es6`(+`.d.ts`).
-- [ ] B4. `src/primitive/*.json` — Radix식 12-step으로 **Button이 쓰는 hue만**(brand 1색 + gray + danger). oklch. step 11/12 텍스트 대비 단계 포함.
-- [ ] B5. `src/semantic/color.json` — DESIGN.md 역할(primary/danger/neutral 등)을 primitive **alias**로. spacing/radius semantic도 Button 소요분만.
-- [ ] B6. `src/domain/*.json` — `price-up`/`price-down` **의미 네이밍**으로 최소 정의(레이어 실증용, 한국: up=red 계열). locale 스왑 메커니즘은 만들지 않음.
-- [ ] B7. `pnpm --filter @bds/tokens build` 성공 → `dist/bds-tokens.css`에 `--bds-*` 변수와 `var()` 참조 체인이, `dist/index.d.ts`에 토큰 타입이 나오는지 검증.
-- [ ] B8. `@bds/tokens`가 **primitive를 export하지 않음**을 확인(exports 맵·타입 표면 점검).
+- [x] B1. `packages/tokens/package.json` 생성 — name `@bds/tokens`, `publishConfig.access: public`, build script, exports 맵(**semantic CSS + TS만** 노출, primitive 비공개).
+- [x] B2. `packages/tokens/tsconfig.json` 생성(패키지 로컬, 공유 tsconfig 패키지는 만들지 않음 — ADR-0006).
+- [x] B3. `packages/tokens/style-dictionary.config.*` 생성 — DTCG 입력, `outputReferences: true`, 출력 `css/variables`(`--bds-*`) + `typescript/es6`(+`.d.ts`).
+- [x] B4. `src/primitive/*.json` — Radix식 12-step으로 **Button이 쓰는 hue만**(brand 1색 + gray + danger). oklch. step 11/12 텍스트 대비 단계 포함.
+- [x] B5. `src/semantic/color.json` — DESIGN.md 역할(primary/danger/neutral 등)을 primitive **alias**로. spacing/radius semantic도 Button 소요분만.
+- [x] B6. `src/domain/*.json` — `price-up`/`price-down` **의미 네이밍**으로 최소 정의(레이어 실증용, 한국: up=red 계열). locale 스왑 메커니즘은 만들지 않음.
+- [x] B7. `pnpm --filter @bds/tokens build` 성공 → `dist/bds-tokens.css`에 `--bds-*` 변수와 `var()` 참조 체인이, `dist/index.d.ts`에 토큰 타입이 나오는지 검증.
+- [x] B8. `@bds/tokens`가 **primitive를 export하지 않음**을 확인(exports 맵·타입 표면 점검).
 
 ### C. `@bds/react` 패키지 + Button 슬라이스
 

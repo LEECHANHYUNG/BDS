@@ -1,0 +1,15 @@
+{
+  "space": {
+    "2": { "$type": "dimension", "$value": { "value": 0.5, "unit": "rem" } },
+    "3": { "$type": "dimension", "$value": { "value": 0.75, "unit": "rem" } }
+  },
+  "radius": {
+    "2": { "$type": "dimension", "$value": { "value": 0.375, "unit": "rem" } }
+  },
+  "border": {
+    "width": {
+      "1": { "$type": "dimension", "$value": { "value": 1, "unit": "px" } },
+      "2": { "$type": "dimension", "$value": { "value": 2, "unit": "px" } }
+    }
+  }
+}

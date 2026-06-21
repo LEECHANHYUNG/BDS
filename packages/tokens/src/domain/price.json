@@ -1,0 +1,6 @@
+{
+  "price": {
+    "up": { "$type": "color", "$value": "{red.11}" },
+    "down": { "$type": "color", "$value": "{blue.11}" }
+  }
+}
