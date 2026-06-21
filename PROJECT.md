@@ -9,20 +9,20 @@
 이 레포가 지금 해결하려는 일을 한 줄로 적는다. 작업 단위가 바뀌면 갱신한다.
 
 - 현재 목표: **첫 두 패키지(`@bds/tokens`·`@bds/react`) 신설 + Button 수직 슬라이스.** 디자인 토큰 3층 뼈대(Radix 12-step·DTCG 2025.10→SD v4)와 vanilla-extract 엔진을 Button 하나로 관통 검증. ADR-0006 트리거 발동.
-- 관련 산출물: `docs/research/design-tokens.md`, `docs/research/styling-engine.md`, `docs/plans/design-tokens-and-button-slice.md`, `CONTEXT.md`, `DESIGN.md`, `docs/adr/0001~0008`(+ 0009 예정)
+- 관련 산출물: `docs/research/design-tokens.md`, `docs/research/styling-engine.md`, `docs/plans/design-tokens-and-button-slice.md`, `CONTEXT.md`, `DESIGN.md`, `docs/adr/0001~0009`
 
 ## Work Board
 
 진행 중인 파일과 담당자, 락 상태를 적는다. 형식: `경로 — 담당 도구 · 상태`.
 `✓ locked` 표시가 있는 파일은 **담당이 아닌 도구가 직접 수정 금지**(읽기·리뷰만 가능).
 
-| 파일                                             | 담당        | 상태                          |
-| ------------------------------------------------ | ----------- | ----------------------------- |
-| `packages/tokens/**`                             | Codex       | 작업 중 ✓ locked              |
-| `packages/react/**`                              | Codex       | 작업 중 ✓ locked              |
-| `docs/adr/0009-*.md`                             | Codex       | 작업 중 ✓ locked              |
-| 루트 `package.json`·`.gitignore`·`.changeset/**` | Codex       | 작업 중 ✓ locked              |
-| `docs/plans/design-tokens-and-button-slice.md`   | Claude Code | 락(Codex는 참고·`[x]` 표시만) |
+| 파일                                             | 담당  | 상태             |
+| ------------------------------------------------ | ----- | ---------------- |
+| `packages/tokens/**`                             | Codex | 완료             |
+| `packages/react/**`                              | Codex | 완료             |
+| `docs/adr/0009-*.md`                             | Codex | 완료             |
+| 루트 `package.json`·`.gitignore`·`.changeset/**` | Codex | 완료             |
+| `docs/plans/design-tokens-and-button-slice.md`   | Codex | 완료(`[x]` 표시) |
 
 ## Decisions
 
@@ -44,6 +44,7 @@
 [담당 도구] changed: <수정 파일> / verified: <검증 상태> / next: <다음 담당과 할 일>
 ```
 
+- [Codex] changed: packages/tokens/**, packages/react/**, package.json, pnpm-lock.yaml, .changeset/design-tokens-button-slice.md, docs/adr/0006·0009, docs/plans/design-tokens-and-button-slice.md, PROJECT.md / verified: A1 `style-dictionary@5.4.4` DTCG oklch·dimension 객체 스파이크 통과, A2 tsup/tsdown/Vite 실측 후 Vite+tsc 선택, `pnpm --filter @bds/tokens build`, `pnpm --filter @bds/react build`, React server render, `pnpm build`, `pnpm check` 통과 / next: Claude Code가 계획준수·접근성·파급 리뷰
 - [Claude Code] changed: docs/research/design-tokens.md, docs/research/styling-engine.md, docs/plans/design-tokens-and-button-slice.md, PROJECT.md / verified: 그릴링(컴포넌트vs설정 → 토큰 뼈대 어디까지 선확정)→조사 2건(토큰·엔진)→계획 완료. design-tokens §5 결정 6건+styling-engine 엔진 1건 인라인 노트 확정, 계획 §6 할 일 25개(A스파이크~F협업) 확정, 주석 사이클 종료(주석 0) / next: Codex가 docs/plans/design-tokens-and-button-slice.md대로 구현(A 스파이크부터 순서대로). 구현 후 Claude Code가 계획준수·접근성·파급 리뷰
 - [Claude Code] changed: (리뷰만, 파일 수정 없음) / verified: 리뷰 5축 통과 — ① 계획 준수: A~F 19작업 전부 반영, printWidth100·check비파괴·correctness만·oxfmt exact/oxlint캐럿·CodeRabbit oxc+biome:false·ADR-0008 supersede/트레이드오프/트리거 ABC 정확 ② 검증 실재: worktree에서 `pnpm check` 실제 통과(oxlint OK+oxfmt 41파일 OK) ③ 접근성: jsx-a11y 명시·색대비는 axe-core/Storybook 영역 기술 ④ 파급: 컴포넌트·토큰 영향 없음, ADR-0004 supersede 표기·pnpm/turbo/changesets 유지 명시 ⑤ 범위 밖 md 15개 재포맷=oxfmt 정당 결과(내용변경0), 사용자 "그대로 둔다" 승인. 보완 인정: `--no-error-on-unmatched-pattern`(코드0줄 대응)·`.oxlintrc.json` JSONC / next: 브랜치 codex/lint-format-toolchain PR·머지. 머지 후 CodeRabbit이 oxc로 첫 리뷰 도는지 확인
 - [Codex] changed: package.json, pnpm-lock.yaml, biome.json(삭제), .oxlintrc.json, .oxfmtrc.jsonc, .coderabbit.yaml, docs/adr/0004·0007·0008, docs/research/monorepo-foundation.md, docs/plans/lint-format-toolchain.md, PROJECT.md, oxfmt 적용 문서 포맷 / verified: `pnpm lint`, `pnpm format`, `pnpm format:check`, `pnpm check`, oxlint `--print-config`, oxfmt 설정 check, Ruby YAML parse 및 `tools.oxc=true`·`tools.biome=false` 확인 통과. 타입체크는 tsconfig·TS 소스·typecheck 스크립트가 없어 적용 불가 / next: Claude Code가 계획 준수·접근성·파급 리뷰

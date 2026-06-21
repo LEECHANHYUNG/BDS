@@ -238,4 +238,4 @@ export function Button({ intent = "primary", className, ...props }: ButtonProps)
 
 ### F. 협업 절차 (PROJECT.md)
 
-- [ ] F1. `PROJECT.md` Work Board에 파일 락 등록(implement-phase가 수행) → 종료 시 Handoff Log 한 줄.
+- [x] F1. `PROJECT.md` Work Board에 파일 락 등록(implement-phase가 수행) → 종료 시 Handoff Log 한 줄.
