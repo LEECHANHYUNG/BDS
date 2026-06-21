@@ -233,8 +233,8 @@ export function Button({ intent = "primary", className, ...props }: ButtonProps)
 
 ### E. 의사결정 기록 (ADR)
 
-- [ ] E1. `docs/adr/0009-*.md` 작성 — 스타일 엔진=vanilla-extract / 토큰 3층·Radix 12-step scale / 번들 포맷·exports(A2 결과). ADR-0006 "번들러·스타일·a11y 린트" 트리거 발동 기록(**supersede 아님**, 보충).
-- [ ] E2. ADR-0006 표의 해당 항목에 "0009로 해소" 교차 참조 한 줄 추가(역사 보존, 표 자체 수정 최소).
+- [x] E1. `docs/adr/0009-*.md` 작성 — 스타일 엔진=vanilla-extract / 토큰 3층·Radix 12-step scale / 번들 포맷·exports(A2 결과). ADR-0006 "번들러·스타일·a11y 린트" 트리거 발동 기록(**supersede 아님**, 보충).
+- [x] E2. ADR-0006 표의 해당 항목에 "0009로 해소" 교차 참조 한 줄 추가(역사 보존, 표 자체 수정 최소).
 
 ### F. 협업 절차 (PROJECT.md)
 
