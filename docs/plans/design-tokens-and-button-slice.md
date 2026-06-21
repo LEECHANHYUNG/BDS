@@ -175,7 +175,7 @@ export function Button({ intent = "primary", className, ...props }: ButtonProps)
 
 ### 구현 중 결정해야 할 미결 (할 일 목록에 스파이크로)
 
-1. **`@bds/react` 번들러**: tsup vs tsdown vs vite library mode. vanilla-extract 정적 .css 추출을 지원해야 함. ADR-0006이 "tsup 유지보수 중단, tsdown 0.x 불안정"이라 경계 — 구현 첫 단계에서 vanilla-extract 통합이 검증된 번들러를 실측 선택.
+1. **`@bds/react` 번들러**: A2 실측 결과 Vite library mode를 선택. `tsup@8.5.1` + `@vanilla-extract/esbuild-plugin`은 정적 CSS·JS·root `.d.ts`를 만들었지만 ADR-0006의 유지보수 경계가 남는다. `tsdown@0.22.3`은 빌드는 통과해도 정적 CSS가 없고 `@vanilla-extract/css` 런타임 import가 남아 탈락. `vite@8.0.16` + `@vanilla-extract/vite-plugin@5.2.2`는 정적 CSS·JS를 만들고, 타입은 `tsc --emitDeclarationOnly`로 root `.d.ts`를 산출해 exports 기준을 충족한다.
 2. **exports 서브패스**(ADR-0005 예고: `@bds/react/stock` 등): Button만 있는 지금은 단일 entry로 충분. 서브패스는 L2 생길 때. 단 exports 맵에 `.css` 노출 경로를 처음부터 포함.
 3. **SD v4 ↔ DTCG 2025.10 버전 갭**(§2.2): A1에서 `style-dictionary@5.4.4`로 oklch·dimension 객체 처리 확인. CSS `var()` 참조 체인까지 통과.
 4. **루트 lint/check/build 스크립트**: 현재 루트 `oxlint .`. 패키지 build/test는 turbo 위임 필요 → 루트 `build`를 `turbo run build`로, lint는 현행 유지(루트 일괄)가 단순. 구현 시 확정.
@@ -200,7 +200,7 @@ export function Button({ intent = "primary", className, ...props }: ButtonProps)
 ### A. 스파이크 (구현 전 불확실성 제거 — 단정 금지 항목)
 
 - [x] A1. `@bds/tokens`에 Style Dictionary v4+ 설치 후, **DTCG 2025.10 oklch color + dimension `{value,unit}` 객체를 실제로 처리하는지** 최소 토큰 1~2개로 빌드 스파이크. 통과 시 진행, 실패 시 폴백((a) SD 버전 상향 (b) 문자열 dimension 다운그레이드) 중 택해 §2.2에 기록.
-- [ ] A2. `@bds/react` 번들러 후보(tsup / tsdown / vite library mode)에서 **vanilla-extract `.css.ts` → 정적 `.css` 추출이 검증되는** 것을 실측 선택. 선택 결과·근거를 §5 #1에 기록.
+- [x] A2. `@bds/react` 번들러 후보(tsup / tsdown / vite library mode)에서 **vanilla-extract `.css.ts` → 정적 `.css` 추출이 검증되는** 것을 실측 선택. 선택 결과·근거를 §5 #1에 기록.
 
 ### B. `@bds/tokens` 패키지
 
