@@ -45,6 +45,7 @@ component (지연 — 만들지 않음)
 - **소스**: DTCG 2025.10 stable JSON. `$type`/`$value`/`$description`. color는 oklch color space, dimension은 `{value, unit}` 객체(unit은 px/rem).
 - **빌드**: Style Dictionary v4+. `outputReferences`로 semantic→primitive 참조를 `var()` 체인으로 보존 → 다크/테마 스왑 토대. 출력 = `css/variables`(`--bds-*`) + `typescript/es6`(+`.d.ts`).
 - ⚠️ **버전 갭 검증(조사 §5 #6)**: SD v4의 DTCG 2025.10 `{value,unit}`·oklch 지원이 부분적일 수 있음. 구현 첫 작업에서 **사용할 SD 버전이 실제로 처리하는지 스파이크로 확인**하고, 안 되면 (a) SD 버전 올리기 (b) 소스를 문자열 dimension으로 다운그레이드 중 택일 — 계획에 단정하지 않는다.
+  - A1 결과: `style-dictionary@5.4.4`에서 DTCG oklch color 객체는 `color/oklch` transform으로 `oklch(...)` 출력, dimension `{ value, unit }` 객체는 `size/rem` transform으로 `rem`/`px` 단위를 보존한다. CSS `outputReferences`는 semantic→primitive `var()` 체인을 보존한다. 폴백 불필요.
 
 ### 2.3 스타일 엔진 (vanilla-extract, 결정 #5)
 
@@ -176,7 +177,7 @@ export function Button({ intent = "primary", className, ...props }: ButtonProps)
 
 1. **`@bds/react` 번들러**: tsup vs tsdown vs vite library mode. vanilla-extract 정적 .css 추출을 지원해야 함. ADR-0006이 "tsup 유지보수 중단, tsdown 0.x 불안정"이라 경계 — 구현 첫 단계에서 vanilla-extract 통합이 검증된 번들러를 실측 선택.
 2. **exports 서브패스**(ADR-0005 예고: `@bds/react/stock` 등): Button만 있는 지금은 단일 entry로 충분. 서브패스는 L2 생길 때. 단 exports 맵에 `.css` 노출 경로를 처음부터 포함.
-3. **SD v4 ↔ DTCG 2025.10 버전 갭**(§2.2): 스파이크로 oklch·dimension 객체 처리 확인.
+3. **SD v4 ↔ DTCG 2025.10 버전 갭**(§2.2): A1에서 `style-dictionary@5.4.4`로 oklch·dimension 객체 처리 확인. CSS `var()` 참조 체인까지 통과.
 4. **루트 lint/check/build 스크립트**: 현재 루트 `oxlint .`. 패키지 build/test는 turbo 위임 필요 → 루트 `build`를 `turbo run build`로, lint는 현행 유지(루트 일괄)가 단순. 구현 시 확정.
 5. **CSS 변수 타입안전 보완**: vanilla-extract contract가 JS측 타입은 잡지만, 토큰 JSON과 contract 키 불일치는 런타임에만 드러남 — 빌드 검증 스텝 둘지 검토.
 
@@ -198,7 +199,7 @@ export function Button({ intent = "primary", className, ...props }: ButtonProps)
 
 ### A. 스파이크 (구현 전 불확실성 제거 — 단정 금지 항목)
 
-- [ ] A1. `@bds/tokens`에 Style Dictionary v4+ 설치 후, **DTCG 2025.10 oklch color + dimension `{value,unit}` 객체를 실제로 처리하는지** 최소 토큰 1~2개로 빌드 스파이크. 통과 시 진행, 실패 시 폴백((a) SD 버전 상향 (b) 문자열 dimension 다운그레이드) 중 택해 §2.2에 기록.
+- [x] A1. `@bds/tokens`에 Style Dictionary v4+ 설치 후, **DTCG 2025.10 oklch color + dimension `{value,unit}` 객체를 실제로 처리하는지** 최소 토큰 1~2개로 빌드 스파이크. 통과 시 진행, 실패 시 폴백((a) SD 버전 상향 (b) 문자열 dimension 다운그레이드) 중 택해 §2.2에 기록.
 - [ ] A2. `@bds/react` 번들러 후보(tsup / tsdown / vite library mode)에서 **vanilla-extract `.css.ts` → 정적 `.css` 추출이 검증되는** 것을 실측 선택. 선택 결과·근거를 §5 #1에 기록.
 
 ### B. `@bds/tokens` 패키지
