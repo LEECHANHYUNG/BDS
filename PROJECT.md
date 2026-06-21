@@ -8,22 +8,27 @@
 
 이 레포가 지금 해결하려는 일을 한 줄로 적는다. 작업 단위가 바뀌면 갱신한다.
 
-- 현재 목표: 린트/포맷 노선을 Biome → **oxlint + oxfmt**로 전환 완료(ADR-0008). 이후 `@bds/tokens`·`@bds/react` 첫 패키지 추가로 복귀.
-- 관련 산출물: `docs/research/lint-format-toolchain.md`, `docs/plans/lint-format-toolchain.md`, `CONTEXT.md`, `docs/adr/0001~0008`, `DESIGN.md`
+- 현재 목표: **첫 두 패키지(`@bds/tokens`·`@bds/react`) 신설 + Button 수직 슬라이스.** 디자인 토큰 3층 뼈대(Radix 12-step·DTCG 2025.10→SD v4)와 vanilla-extract 엔진을 Button 하나로 관통 검증. ADR-0006 트리거 발동.
+- 관련 산출물: `docs/research/design-tokens.md`, `docs/research/styling-engine.md`, `docs/plans/design-tokens-and-button-slice.md`, `CONTEXT.md`, `DESIGN.md`, `docs/adr/0001~0008`(+ 0009 예정)
 
 ## Work Board
 
 진행 중인 파일과 담당자, 락 상태를 적는다. 형식: `경로 — 담당 도구 · 상태`.
 `✓ locked` 표시가 있는 파일은 **담당이 아닌 도구가 직접 수정 금지**(읽기·리뷰만 가능).
 
-| 파일                                             | 담당 | 상태 |
-| ------------------------------------------------ | ---- | ---- |
-| _(없음 — 린트/포맷 oxc 전환 구현 완료, 락 해제)_ | —    | —    |
+| 파일                                             | 담당        | 상태                          |
+| ------------------------------------------------ | ----------- | ----------------------------- |
+| `packages/tokens/**`                             | Codex       | 작업 중 ✓ locked              |
+| `packages/react/**`                              | Codex       | 작업 중 ✓ locked              |
+| `docs/adr/0009-*.md`                             | Codex       | 작업 중 ✓ locked              |
+| 루트 `package.json`·`.gitignore`·`.changeset/**` | Codex       | 작업 중 ✓ locked              |
+| `docs/plans/design-tokens-and-button-slice.md`   | Claude Code | 락(Codex는 참고·`[x]` 표시만) |
 
 ## Decisions
 
 협업 중 합의한 규칙·결정을 누적한다. 새 결정은 맨 위에 날짜와 함께 추가한다.
 
+- **(2026-06-21) 디자인 토큰 뼈대 + 스타일 엔진 확정** (그릴링→조사→계획): 방향 **B(Button 수직 슬라이스)** — 전 팔레트 완성이 아니라 Button이 쓰는 최소 토큰만 생성. 확정 7건: ① color scale = **Radix식 역할형 12-step**(명도형 Tailwind 거부, semantic 수동 매핑↓·대비 보증을 scale에 박음) ② 레이어 = **3층 명문화**(primitive→semantic→도메인 semantic) ③ primitive 직참조 금지 = **`@bds/tokens`가 semantic만 export**(타입/번들 경계로 강제, oxlint 커스텀 룰 불필요) ④ density 축 **미룸** ⑤ 스타일 엔진 = **vanilla-extract**(CSS Modules 2순위 제침, 유지보수 정체 2025.4~ 리스크 수용; **정적 .css 추출 배포**로 RSC 안정+publish 부담0) ⑥ locale 스왑 **안 함**(한국 시장만, 단 `price-up`/`price-down` 의미 네이밍 유지) ⑦ 소스 = **DTCG 2025.10 stable**(oklch), 빌드 = **Style Dictionary v4+** `outputReferences`. 미결(구현 스파이크): SD↔DTCG 2025.10 버전 갭, `@bds/react` 번들러(tsup/tsdown/vite 실측). 근거: `docs/research/design-tokens.md`·`styling-engine.md`, `docs/plans/design-tokens-and-button-slice.md`. ADR-0009로 박제 예정(ADR-0006 트리거 발동, supersede 아님).
 - **(2026-06-20) 린트/포맷 = oxlint + oxfmt로 전환** (그릴링): Biome 완전 제거 → oxlint(린트)+oxfmt(포맷). **조사 결론은 "Biome 유지"였으나**(제품 합리성), 학습 동기(현업 oxc 운영 대비)+코드 0줄 타이밍으로 **의식적으로 뒤집음**. 확정 사항: printWidth 100(oxfmt 기본), `check`=검증 전용(비파괴, CI 대비), oxlint는 correctness만(나머지 보류), oxfmt는 정확 버전 고정(0.x 잡음 차단)·oxlint는 캐럿(stable), 설정은 oxlint `.oxlintrc.json`+JSONC 주석 / oxfmt `.oxfmtrc.jsonc`. CodeRabbit은 `tools.oxc`(키명 주의)로 전환하되 **Biome enabled면 oxlint 안 돎**. 재평가 트리거 A(oxfmt 1.0 정체/포맷 깨짐)·B(type-aware 필요)·C(a11y 룰 부족 실측). ADR-0004 supersede, 근거는 ADR-0008.
 - **(2026-06-20) CodeRabbit 리뷰 설정 확정** (그릴링): 언어 `ko-KR`; 프로파일 `chill`(로컬 정적 도구와 신호 중복 회피, 설계·도메인 위험 집중); `request_changes_workflow: false`(머지 비차단, 조언자); 도구는 ADR-0008 이후 `oxc` on·Biome off·gitleaks on·markdownlint off; `auto_review.drafts: false`; `knowledge_base` 학습 유지; `path_instructions`는 실재 경로(`docs/**`·`.changeset/**`)에만, `packages/**`는 첫 컴포넌트 시점 보류. 근거·재평가 트리거(CI 도입 시 request_changes→true, 첫 컴포넌트 시 packages 관점 추가)는 ADR-0007.
 - **같은 파일 동시 수정 금지.** 한 파일은 한 시점에 한 도구만 쓴다. Work Board에서 락을 잡고 작업한다.
@@ -39,6 +44,7 @@
 [담당 도구] changed: <수정 파일> / verified: <검증 상태> / next: <다음 담당과 할 일>
 ```
 
+- [Claude Code] changed: docs/research/design-tokens.md, docs/research/styling-engine.md, docs/plans/design-tokens-and-button-slice.md, PROJECT.md / verified: 그릴링(컴포넌트vs설정 → 토큰 뼈대 어디까지 선확정)→조사 2건(토큰·엔진)→계획 완료. design-tokens §5 결정 6건+styling-engine 엔진 1건 인라인 노트 확정, 계획 §6 할 일 25개(A스파이크~F협업) 확정, 주석 사이클 종료(주석 0) / next: Codex가 docs/plans/design-tokens-and-button-slice.md대로 구현(A 스파이크부터 순서대로). 구현 후 Claude Code가 계획준수·접근성·파급 리뷰
 - [Claude Code] changed: (리뷰만, 파일 수정 없음) / verified: 리뷰 5축 통과 — ① 계획 준수: A~F 19작업 전부 반영, printWidth100·check비파괴·correctness만·oxfmt exact/oxlint캐럿·CodeRabbit oxc+biome:false·ADR-0008 supersede/트레이드오프/트리거 ABC 정확 ② 검증 실재: worktree에서 `pnpm check` 실제 통과(oxlint OK+oxfmt 41파일 OK) ③ 접근성: jsx-a11y 명시·색대비는 axe-core/Storybook 영역 기술 ④ 파급: 컴포넌트·토큰 영향 없음, ADR-0004 supersede 표기·pnpm/turbo/changesets 유지 명시 ⑤ 범위 밖 md 15개 재포맷=oxfmt 정당 결과(내용변경0), 사용자 "그대로 둔다" 승인. 보완 인정: `--no-error-on-unmatched-pattern`(코드0줄 대응)·`.oxlintrc.json` JSONC / next: 브랜치 codex/lint-format-toolchain PR·머지. 머지 후 CodeRabbit이 oxc로 첫 리뷰 도는지 확인
 - [Codex] changed: package.json, pnpm-lock.yaml, biome.json(삭제), .oxlintrc.json, .oxfmtrc.jsonc, .coderabbit.yaml, docs/adr/0004·0007·0008, docs/research/monorepo-foundation.md, docs/plans/lint-format-toolchain.md, PROJECT.md, oxfmt 적용 문서 포맷 / verified: `pnpm lint`, `pnpm format`, `pnpm format:check`, `pnpm check`, oxlint `--print-config`, oxfmt 설정 check, Ruby YAML parse 및 `tools.oxc=true`·`tools.biome=false` 확인 통과. 타입체크는 tsconfig·TS 소스·typecheck 스크립트가 없어 적용 불가 / next: Claude Code가 계획 준수·접근성·파급 리뷰
 - [Claude Code] changed: docs/research/lint-format-toolchain.md, docs/plans/lint-format-toolchain.md, PROJECT.md / verified: 그릴링 8건 결정 박제, 미해결 2건(CodeRabbit oxlint 지원=oxc 키·Biome off 필요 / oxc 설정 형식) 웹 조사로 해소, 계획서 §5 결정 5건 확정·§6 할 일 19개 확정, 노트 사이클 완료(주석 0) / next: Codex가 docs/plans/lint-format-toolchain.md대로 oxc 전환 구현(A~F 그룹). 구현 후 Claude Code가 계획 준수·접근성·파급 리뷰
