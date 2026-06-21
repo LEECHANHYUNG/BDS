@@ -2,8 +2,10 @@ const publicSourceSegments = ["/semantic/", "/domain/"];
 
 const toKebab = (value) => value.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`);
 
-const isPublicToken = (token) =>
-  publicSourceSegments.some((segment) => token.filePath.includes(segment));
+const isPublicToken = (token) => {
+  const normalizedPath = token.filePath.replace(/\\/g, "/");
+  return publicSourceSegments.some((segment) => normalizedPath.includes(segment));
+};
 
 const cssVarName = (token) => `--bds-${token.path.map(toKebab).join("-")}`;
 
