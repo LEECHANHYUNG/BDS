@@ -226,10 +226,10 @@ export function Button({ intent = "primary", className, ...props }: ButtonProps)
 
 ### D. 워크스페이스 통합
 
-- [ ] D1. `turbo run build`가 tokens→react 순서(`dependsOn: ^build`)로 통과하는지 검증.
-- [ ] D2. 루트 `package.json` 스크립트 조정 — `build`를 `turbo run build`로 위임(lint/check는 현행 루트 일괄 유지). §5 #4 확정.
-- [ ] D3. `.gitignore`에 `dist/`·SD 산출 무시 추가(현재 무시 여부 확인 후).
-- [ ] D4. `@bds/react` 변경에 대한 **Changeset** 추가(초기 publish 전제, independent 버전).
+- [x] D1. `turbo run build`가 tokens→react 순서(`dependsOn: ^build`)로 통과하는지 검증.
+- [x] D2. 루트 `package.json` 스크립트 조정 — `build`를 `turbo run build`로 위임(lint/check는 현행 루트 일괄 유지). §5 #4 확정.
+- [x] D3. `.gitignore`에 `dist/`·SD 산출 무시 추가(현재 무시 여부 확인 후).
+- [x] D4. `@bds/react` 변경에 대한 **Changeset** 추가(초기 publish 전제, independent 버전).
 
 ### E. 의사결정 기록 (ADR)
 
