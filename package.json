@@ -2,6 +2,7 @@
   "name": "bds",
   "private": true,
   "scripts": {
+    "build": "turbo run build",
     "lint": "oxlint --no-error-on-unmatched-pattern",
     "lint:fix": "oxlint --fix --no-error-on-unmatched-pattern",
     "format": "oxfmt .",
